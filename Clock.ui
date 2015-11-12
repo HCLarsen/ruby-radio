@@ -1,0 +1,29 @@
+<interface>
+  <!-- interface-requires gtk+ 3.0 -->
+  <object class="GtkWindow" id="window">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="default_width">320</property>
+    <property name="default_height">240</property>
+    <property name="hide_titlebar_when_maximized">True</property>
+    <property name="has_resize_grip">False</property>
+    <child>
+      <object class="GtkButton" id="clock">
+        <property name="use_action_appearance">False</property>
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="receives_default">True</property>
+        <property name="use_action_appearance">False</property>
+        <child>
+          <object class="GtkLabel" id="label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">12:00</property>
+            <property name="lines">1</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
