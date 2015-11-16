@@ -3,11 +3,38 @@ require 'ruby-mpd'
 
 class MainDisplay
 
-  LABEL_MARKUP = '<span foreground="red" font_desc="84" weight="bold">%s</span>'
   MAJOR_MARKUP = '<span foreground="red" font_desc="84" weight="bold">%s</span>'
-  MINOR_MARKUP = '<span foreground="red" font_desc="16" weight="bold">%s</span>'
+  MINOR_MARKUP = '<span foreground="white" font_desc="28" weight="bold">%s</span>'
 
   def initialize
+    @station_names = ["Z103.5\nTop 40", 
+                      "99.9 Virgin Radio\nTop 40", 
+                      "Flow 93.5\nHip-Hop and R&amp;B"]
+    loadUi
+
+    @station_names.count.times do |n |
+       label = Gtk::Label.new
+       label.set_markup('<span font_desc="16">%s</span>' % @station_names[n])
+       button = Gtk::Button.new
+       button.add(label)
+       button.set_alignment(0,0.5)
+       @radioList.add(button)
+    end
+
+    @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
+    @timeHeader.set_markup(MINOR_MARKUP % clockTime)
+    
+    @clockView.signal_connect('button-press-event') { goToMainDisplay }
+    @eventbox1.signal_connect('button-press-event') { goToClockDisplay }
+
+    @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
+    @win.signal_connect("destroy") { Gtk.main_quit }
+
+    @win.show_all
+    Gtk.main
+  end
+
+  def loadUi
     ui_file = "#{File.expand_path(File.dirname(__FILE__))}/main.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
@@ -21,26 +48,6 @@ class MainDisplay
     @eventbox1 = builder.get_object("eventbox1")
     @timeHeader = builder.get_object("timeHeader")
     @radioList = builder.get_object("radioList")
-
-    #list of radio stations
-    @radioList.add(Gtk::Button.new(:label => "First\nStation"))
-    @radioList.add(Gtk::Button.new(:label => "Second\nStation"))
-    @radioList.add(Gtk::Button.new(:label => "Third\nStation"))
-    @radioList.add(Gtk::Button.new(:label => "Fourth\nStation"))
-    @radioList.add(Gtk::Button.new(:label => "Fifth\nStation"))
-    @radioList.add(Gtk::Button.new(:label => "Sixth\nStation"))
-
-    @clockView.signal_connect('button-press-event') { goToMainDisplay }
-    @eventbox1.signal_connect('button-press-event') { goToClockDisplay }
-
-    @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
-    @timeHeader.set_markup(MINOR_MARKUP % clockTime)
-    
-    @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
-    @win.signal_connect("destroy") { Gtk.main_quit }
-
-    @win.show_all
-    Gtk.main
   end
 
   def clockTime
@@ -53,7 +60,7 @@ class MainDisplay
     @interrupt = false
     @clock = Thread.new do
       until @interrupt do 
-        @timeLabel.set_markup(LABEL_MARKUP % clockTime)
+        @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
         sleep 1
       end
     end
