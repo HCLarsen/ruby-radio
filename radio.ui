@@ -13,11 +13,11 @@
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkEventBox" id="returnBox">
+          <object class="GtkEventBox" id="radioHeader">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkLabel" id="timeHeader">
+              <object class="GtkLabel" id="radioClock">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">12:00</property>

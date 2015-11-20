@@ -1,5 +1,6 @@
 require 'gtk3'
-require 'ruby-mpd'
+require_relative 'radio'
+require_relative 'clock'
 
 class MainDisplay
 
@@ -7,6 +8,9 @@ class MainDisplay
   MINOR_MARKUP = '<span foreground="white" font_desc="28" weight="bold">%s</span>'
 
   def initialize
+    @radio = Radio.new
+    @clock = Clock.new
+    
     @station_names = ["Z103.5\nTop 40", 
                       "99.9 Virgin Radio\nTop 40", 
                       "Flow 93.5\nHip-Hop and R&amp;B"]
@@ -22,10 +26,11 @@ class MainDisplay
     end
 
     @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
-    @timeHeader.set_markup(MINOR_MARKUP % clockTime)
+    @mainClock.set_markup(MINOR_MARKUP % clockTime)
+    @radioClock.set_markup(MINOR_MARKUP % clockTime)
     
     @clockView.signal_connect('button-press-event') { goToMainDisplay }
-    @eventbox1.signal_connect('button-press-event') { goToClockDisplay }
+    @mainHeader.signal_connect('button-press-event') { goToClockDisplay }
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
     @win.signal_connect("destroy") { Gtk.main_quit }
@@ -44,10 +49,14 @@ class MainDisplay
     @stack = builder.get_object("stack")
     @clockView = builder.get_object("clockView")
     @timeLabel = builder.get_object("timeLabel")
-    @radioView = builder.get_object("radioView")
-    @eventbox1 = builder.get_object("eventbox1")
-    @timeHeader = builder.get_object("timeHeader")
+    @mainView = builder.get_object("mainView")
+    @mainHeader = builder.get_object("mainHeader")
+    @timeHeader = builder.get_object("mainClock")
     @radioList = builder.get_object("radioList")
+    @radioHeader = builder.get_object("radioHeader")
+    @radioClock = builder.get_object("radioClock")
+    @playerBox = builder.get_object("playerBox")
+    @stationInfo = builder.get_object("stationInfo")
   end
 
   def clockTime
@@ -57,24 +66,22 @@ class MainDisplay
 
   def goToClockDisplay
     @stack.set_visible_child(@clockView)
-    @interrupt = false
-    @clock = Thread.new do
-      until @interrupt do 
-        @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
-        sleep 1
-      end
-    end
+    runClock(@timeLabel, MAJOR_MARKUP)
   end
 
   def goToMainDisplay
-    @interrupt = true
-    @stack.set_visible_child(@radioView)
+    @stack.set_visible_child(@mainView)
+    runClock(@mainClock, MINOR_MARKUP)
+  end
+
+  def runClock(clockLabel, markup)
+    @interrupt = false
     @clock = Thread.new do
       until @interrupt do
-        @timeHeader.set_markup(MINOR_MARKUP % clockTime)
+        clockLabel.set_markup(markup % clockTime)
         sleep 1
       end
-    end
+    end    
   end
 
   def start_radio(station)

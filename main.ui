@@ -1,5 +1,5 @@
 <interface>
-  <object id="win" class="GtkWindow">
+  <object class="GtkWindow" id="win">
     <property name="visible">True</property>
     <property name="title">Clock</property>
     <property name="default_width">320</property>
@@ -7,28 +7,29 @@
     <property name="hide_titlebar_when_maximized">True</property>
     <property name="has_resize_grip">False</property>
   	<child>
-  		<object id="stack" class="GtkStack">
+  		<object class="GtkStack" id="stack">
   			<child>
-  				<object id="clockView" class="GtkEventBox">
+          <!-- Default clock display -->
+  				<object class="GtkEventBox" id="clockView">
   					<child>
-  						<object id="timeLabel" class="GtkLabel">
-				                        <property name="label" translatable="yes">12:00</property>
+  						<object class="GtkLabel" id="timeLabel">
+				        <property name="label" translatable="yes">12:00</property>
   						</object>
   					</child>
   				</object>
   			</child>
   			<child>
-  				<object id="radioView" class="GtkScrolledWindow">
-  					<!-- List of Radio stations to be added -->
+          <!-- List of Radio stations -->
+  				<object class="GtkScrolledWindow" id="mainView">
   					<child>
-  						<object id="radioList" class="GtkBox">
+  						<object class="GtkBox" id="radioList">
   							<property name="orientation">vertical</property>
 				        <child>
-				          <object class="GtkEventBox" id="eventbox1">
+				          <object class="GtkEventBox" id="mainHeader">
 				            <property name="visible">True</property>
 				            <property name="can_focus">False</property>
 				            <child>
-				              <object class="GtkLabel" id="timeHeader">
+				              <object class="GtkLabel" id="mainClock">
 				                <property name="visible">True</property>
 				                <property name="can_focus">False</property>
 				                <property name="label" translatable="yes">12:00</property>
@@ -36,15 +37,59 @@
 				            </child>
 				          </object>
 				          <packing>
-				            <property name="expand">False</property>
-				            <property name="fill">True</property>
-				            <property name="position">0</property>
+  			            <property name="expand">False</property>
+  			            <property name="fill">True</property>
+  			            <property name="position">0</property>
 				          </packing>
 				        </child>
   						</object>
   					</child>
   				</object>
   			</child>
+        <child>
+          <!-- Radio Player Screen -->
+          <object class="GtkBox" id="radioBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkEventBox" id="radioHeader">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="radioClock">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">12:00</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="playerBox">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkLabel" id="stationInfo">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">label</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>          
+        </child>
   		</object>
   	</child>
   </object>
