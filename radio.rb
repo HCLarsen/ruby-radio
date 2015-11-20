@@ -13,6 +13,10 @@ class Radio
                       "Flow 93.5\nHip-Hop and R&amp;B"]
   end
 
+  def play(station)
+    @mpd.play(station)
+  end
+
   def toggle
     status = @mpd.status
     if status[:state] == :play

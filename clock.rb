@@ -2,8 +2,8 @@ require 'gtk3'
 
 class Clock
 
-  MAJOR_MARKUP = '<span foreground="red" font_desc="84" weight="bold">%s</span>'
-  MINOR_MARKUP = '<span foreground="white" font_desc="28" weight="bold">%s</span>'
+  #MAJOR_MARKUP = '<span foreground="red" font_desc="84" weight="bold">%s</span>'
+  #MINOR_MARKUP = '<span foreground="white" font_desc="28" weight="bold">%s</span>'
 
 	def initialize(clockLabel, markup)
 		@clockLabel = clockLabel

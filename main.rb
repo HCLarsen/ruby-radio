@@ -10,30 +10,25 @@ class MainDisplay
   def initialize
     @radio = Radio.new
     @clock = Clock.new
-    
+
     @station_names = ["Z103.5\nTop 40", 
                       "99.9 Virgin Radio\nTop 40", 
                       "Flow 93.5\nHip-Hop and R&amp;B"]
+
     loadUi
 
-    @station_names.count.times do |n |
-       label = Gtk::Label.new
-       label.set_markup('<span font_desc="16">%s</span>' % @station_names[n])
-       button = Gtk::Button.new
-       button.add(label)
-       button.set_alignment(0,0.5)
-       @radioList.add(button)
-    end
-
-    @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
-    @mainClock.set_markup(MINOR_MARKUP % clockTime)
-    @radioClock.set_markup(MINOR_MARKUP % clockTime)
+    #@timeLabel.set_markup(MAJOR_MARKUP % clockTime)
+    #@mainClock.set_markup(MINOR_MARKUP % clockTime)
+    #@radioClock.set_markup(MINOR_MARKUP % clockTime)
     
     @clockView.signal_connect('button-press-event') { goToMainDisplay }
     @mainHeader.signal_connect('button-press-event') { goToClockDisplay }
+    @mainHeader.signal_connect('button-press-event') { goToMainDisplay }
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
     @win.signal_connect("destroy") { Gtk.main_quit }
+
+    @clock.startClock
 
     @win.show_all
     Gtk.main
@@ -51,12 +46,22 @@ class MainDisplay
     @timeLabel = builder.get_object("timeLabel")
     @mainView = builder.get_object("mainView")
     @mainHeader = builder.get_object("mainHeader")
-    @timeHeader = builder.get_object("mainClock")
+    @mainClock = builder.get_object("mainClock")
     @radioList = builder.get_object("radioList")
     @radioHeader = builder.get_object("radioHeader")
     @radioClock = builder.get_object("radioClock")
     @playerBox = builder.get_object("playerBox")
     @stationInfo = builder.get_object("stationInfo")
+
+    @station_names.count.times do |n |
+       label = Gtk::Label.new
+       label.set_markup('<span font_desc="16">%s</span>' % @station_names[n])
+       button = Gtk::Button.new
+       button.add(label)
+       button.set_alignment(0,0.5)
+       button.signal_connect('clicked') { start_radio(n)}
+       @radioList.add(button)
+    end
   end
 
   def clockTime
@@ -66,26 +71,24 @@ class MainDisplay
 
   def goToClockDisplay
     @stack.set_visible_child(@clockView)
-    runClock(@timeLabel, MAJOR_MARKUP)
+    @clock.setLabel(@timeLabel)
+    @clock.setMarkup(MAJOR_MARKUP)
   end
 
   def goToMainDisplay
     @stack.set_visible_child(@mainView)
-    runClock(@mainClock, MINOR_MARKUP)
+    @clock.setLabel(@mainClock)
+    @clock.setMarkup(MINOR_MARKUP)
   end
 
-  def runClock(clockLabel, markup)
-    @interrupt = false
-    @clock = Thread.new do
-      until @interrupt do
-        clockLabel.set_markup(markup % clockTime)
-        sleep 1
-      end
-    end    
+  def goToRadioPlayer
+    @stack.set_visible_child(@mainView)
+    @clock.setLabel(@radioClock)
+    @clock.setMarkup(MINOR_MARKUP)
   end
 
   def start_radio(station)
-    # Signal connect action for radio list buttons
+    @radio.play(station)
   end
 end
 
