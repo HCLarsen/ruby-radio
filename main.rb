@@ -1,4 +1,4 @@
-require 'gtk3'
+#require 'gtk3'
 require_relative 'radio'
 require_relative 'clock'
 
@@ -8,27 +8,29 @@ class MainDisplay
   MINOR_MARKUP = '<span foreground="white" font_desc="28" weight="bold">%s</span>'
 
   def initialize
-    @radio = Radio.new
-    @clock = Clock.new
-
     @station_names = ["Z103.5\nTop 40", 
                       "99.9 Virgin Radio\nTop 40", 
                       "Flow 93.5\nHip-Hop and R&amp;B"]
 
     loadUi
 
-    #@timeLabel.set_markup(MAJOR_MARKUP % clockTime)
-    #@mainClock.set_markup(MINOR_MARKUP % clockTime)
-    #@radioClock.set_markup(MINOR_MARKUP % clockTime)
+    @radio = Radio.new
+    @clock = Clock.new(@timeLabel, MAJOR_MARKUP)
+
+    @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
+    @mainClock.set_markup(MINOR_MARKUP % clockTime)
+    @radioClock.set_markup(MINOR_MARKUP % clockTime)
     
     @clockView.signal_connect('button-press-event') { goToMainDisplay }
     @mainHeader.signal_connect('button-press-event') { goToClockDisplay }
-    @mainHeader.signal_connect('button-press-event') { goToMainDisplay }
+		@radioHeader.signal_connect('button-press-event') { goToMainDisplay }
+		@playerBox.signal_connect('button-press-event') { @radio.toggle }
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
     @win.signal_connect("destroy") { Gtk.main_quit }
 
     @clock.startClock
+    goToClockDisplay
 
     @win.show_all
     Gtk.main
@@ -48,6 +50,8 @@ class MainDisplay
     @mainHeader = builder.get_object("mainHeader")
     @mainClock = builder.get_object("mainClock")
     @radioList = builder.get_object("radioList")
+
+    @radioView = builder.get_object("radioView")
     @radioHeader = builder.get_object("radioHeader")
     @radioClock = builder.get_object("radioClock")
     @playerBox = builder.get_object("playerBox")
@@ -73,22 +77,27 @@ class MainDisplay
     @stack.set_visible_child(@clockView)
     @clock.setLabel(@timeLabel)
     @clock.setMarkup(MAJOR_MARKUP)
+    puts "Clock View Active"
   end
 
   def goToMainDisplay
     @stack.set_visible_child(@mainView)
     @clock.setLabel(@mainClock)
     @clock.setMarkup(MINOR_MARKUP)
+    puts "Main View Active"
   end
 
   def goToRadioPlayer
-    @stack.set_visible_child(@mainView)
+    @stack.set_visible_child(@radioView)
     @clock.setLabel(@radioClock)
     @clock.setMarkup(MINOR_MARKUP)
+    puts "Radio View Active"
   end
 
   def start_radio(station)
     @radio.play(station)
+		@stationInfo.set_markup(MINOR_MARKUP % @station_names[station])
+		goToRadioPlayer
   end
 end
 
