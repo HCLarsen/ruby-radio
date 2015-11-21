@@ -16,7 +16,4 @@ GUI is made possible by using the Gtk3 gem at https://rubygems.org/gems/gtk3
 
 # To Do
 
-Must create the display for when playing a radio station. There will be buttons
-for playing, stopping and returning to the main screen.
-
-Create an interface between the display and the internet radio stations.
+At this point, all that is needed is hardware. I will have to find a suitable enclosure, and a speaker that can be connected to the audio jack.

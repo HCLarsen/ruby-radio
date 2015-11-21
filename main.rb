@@ -17,14 +17,14 @@ class MainDisplay
     @radio = Radio.new
     @clock = Clock.new(@timeLabel, MAJOR_MARKUP)
 
-    @timeLabel.set_markup(MAJOR_MARKUP % clockTime)
-    @mainClock.set_markup(MINOR_MARKUP % clockTime)
-    @radioClock.set_markup(MINOR_MARKUP % clockTime)
-    
+		@volume.set_range(0,100)
+		@volume.set_value(@radio.volume)
+
     @clockView.signal_connect('button-press-event') { goToMainDisplay }
     @mainHeader.signal_connect('button-press-event') { goToClockDisplay }
 		@radioHeader.signal_connect('button-press-event') { goToMainDisplay }
 		@playerBox.signal_connect('button-press-event') { @radio.toggle }
+		@volume.signal_connect('value_changed') { @radio.setVolume(@volume.value.to_i) }
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
     @win.signal_connect("destroy") { Gtk.main_quit }
@@ -56,6 +56,7 @@ class MainDisplay
     @radioClock = builder.get_object("radioClock")
     @playerBox = builder.get_object("playerBox")
     @stationInfo = builder.get_object("stationInfo")
+		@volume = builder.get_object("volumeScale")
 
     @station_names.count.times do |n |
        label = Gtk::Label.new
@@ -77,21 +78,18 @@ class MainDisplay
     @stack.set_visible_child(@clockView)
     @clock.setLabel(@timeLabel)
     @clock.setMarkup(MAJOR_MARKUP)
-    puts "Clock View Active"
   end
 
   def goToMainDisplay
     @stack.set_visible_child(@mainView)
     @clock.setLabel(@mainClock)
     @clock.setMarkup(MINOR_MARKUP)
-    puts "Main View Active"
   end
 
   def goToRadioPlayer
     @stack.set_visible_child(@radioView)
     @clock.setLabel(@radioClock)
     @clock.setMarkup(MINOR_MARKUP)
-    puts "Radio View Active"
   end
 
   def start_radio(station)
