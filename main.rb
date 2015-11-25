@@ -33,6 +33,9 @@ class MainDisplay
     goToClockDisplay
 
     @win.show_all
+		@win.fullscreen
+		@win.window.set_cursor(Gdk::Cursor.new(Gdk::Cursor::BLANK_CURSOR))
+
     Gtk.main
   end
 
