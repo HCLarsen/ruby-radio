@@ -6,7 +6,7 @@ Ruby v- 2.2.1
 
 This is a simple IoT clock radio. 
 
-Hardware is a Raspberry Pi B+ with a 4.3" touchscreen.
+Hardware is a Raspberry Pi B+ with a 2.8" touchscreen.
 
 Radio is played through streaming internet radio stations, and controlled with the ruby-mpd gem at https://rubygems.org/gems/ruby-mpd.
 
