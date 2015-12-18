@@ -2,9 +2,6 @@ require 'gtk3'
 
 class Clock
 
-  #MAJOR_MARKUP = '<span foreground="red" font_desc="84" weight="bold">%s</span>'
-  #MINOR_MARKUP = '<span foreground="white" font_desc="28" weight="bold">%s</span>'
-
   def initialize(clockLabel, markup)
     @clockLabel = clockLabel
     @markup = markup
@@ -19,15 +16,15 @@ class Clock
     @markup = markup
   end
 
-  def clockTime
+	def clockUpdate
     time = Time.now
-    "#{time.strftime("%H")}:#{time.strftime("%M")}"
-  end
+		@clockLabel.set_markup(@markup % "#{time.strftime("%H")}:#{time.strftime("%M")}")
+	end
 
   def startClock
     @tickTock = Thread.new do
       until @interrupt do
-        @clockLabel.set_markup(@markup % clockTime)
+				clockUpdate
         sleep 1
       end
     end    

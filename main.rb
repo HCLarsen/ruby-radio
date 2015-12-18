@@ -1,4 +1,3 @@
-#require 'gtk3'
 require_relative 'radio'
 require_relative 'clock'
 
@@ -17,14 +16,14 @@ class MainDisplay
     @radio = Radio.new
     @clock = Clock.new(@timeLabel, MAJOR_MARKUP)
 
-		@volume.set_range(0,100)
-		@volume.set_value(@radio.volume)
-
     @clockView.signal_connect('button-press-event') { goToMainDisplay }
     @mainHeader.signal_connect('button-press-event') { goToClockDisplay }
 		@radioHeader.signal_connect('button-press-event') { goToMainDisplay }
 		@playerBox.signal_connect('button-press-event') { @radio.toggle }
 		@volume.signal_connect('value_changed') { @radio.setVolume(@volume.value.to_i) }
+
+		@volume.set_range(0,100)
+		@volume.set_value(@radio.volume)
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
     @win.signal_connect("destroy") { Gtk.main_quit }
@@ -33,8 +32,11 @@ class MainDisplay
     goToClockDisplay
 
     @win.show_all
-		@win.fullscreen
-		@win.window.set_cursor(Gdk::Cursor.new(Gdk::Cursor::BLANK_CURSOR))
+
+		if (system "rvm") == nil # RVM is not install in deployment environment
+			@win.fullscreen
+			@win.window.set_cursor(Gdk::Cursor.new(Gdk::Cursor::BLANK_CURSOR))
+		end
 
     Gtk.main
   end
@@ -72,27 +74,30 @@ class MainDisplay
     end
   end
 
-  def clockTime
-    time = Time.now
-    "#{time.strftime("%H")}:#{time.strftime("%M")}"
-  end
+	def gotoDisplay(display)
+		@stack.set_visible_child(display)
+		@clock.clockUpdate
+	end
 
   def goToClockDisplay
     @stack.set_visible_child(@clockView)
     @clock.setLabel(@timeLabel)
     @clock.setMarkup(MAJOR_MARKUP)
+		@clock.clockUpdate
   end
 
   def goToMainDisplay
     @stack.set_visible_child(@mainView)
     @clock.setLabel(@mainClock)
     @clock.setMarkup(MINOR_MARKUP)
+		@clock.clockUpdate
   end
 
   def goToRadioPlayer
     @stack.set_visible_child(@radioView)
     @clock.setLabel(@radioClock)
     @clock.setMarkup(MINOR_MARKUP)
+		@clock.clockUpdate
   end
 
   def start_radio(station)
