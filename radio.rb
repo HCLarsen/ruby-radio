@@ -4,6 +4,8 @@ class Radio
   def initialize
     @mpd = MPD.new 'localhost', 6600
     @mpd.connect
+		@radio_stations = [[:name => "Z103.5", :desc => "Top 40", :addr=>"http://ice8.securenetsystems.net/CIDC?&playSessionID=1454B12F-A7FA-81C5-CCF8EDB05FEC18B6"],
+											[:name => "99.9 Virgin Radio", :desc => "Top 40", :addr=>"http://ckfm-mp3.akacast.akamaistream.net/7/318/102120/v1/astral.akacast.akamaistream.net/ckfm-mp3"]]
   end
 
   def volume
@@ -11,7 +13,7 @@ class Radio
   end
 
 	def setVolume(vol)
-		@mpd.volume=vol
+		@mpd.volume = vol
 	end
 
   def play(station)

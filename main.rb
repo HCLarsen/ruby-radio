@@ -3,8 +3,8 @@ require_relative 'clock'
 
 class MainDisplay
 
-  MAJOR_MARKUP = '<span foreground="red" font_desc="84" weight="bold">%s</span>'
-  MINOR_MARKUP = '<span foreground="white" font_desc="28" weight="bold">%s</span>'
+  MAJOR_MARKUP = '<span foreground="red" font_desc="monospace bold 84">%s</span>'
+  MINOR_MARKUP = '<span foreground="white" font_desc="monospace bold 28">%s</span>'
 
   def initialize
     @station_names = ["Z103.5\nTop 40", 
@@ -33,10 +33,10 @@ class MainDisplay
 
     @win.show_all
 
-		if (system "rvm") == nil # RVM is not install in deployment environment
-			@win.fullscreen
-			@win.window.set_cursor(Gdk::Cursor.new(Gdk::Cursor::BLANK_CURSOR))
-		end
+		#if (system "rvm") == nil # RVM is not installed in deployment environment
+		#	@win.fullscreen
+		#	@win.window.set_cursor(Gdk::Cursor.new(Gdk::Cursor::BLANK_CURSOR))
+		#end
 
     Gtk.main
   end

@@ -1,10 +1,12 @@
 require 'gtk3'
+require 'byebug'
 
 class Clock
 
   def initialize(clockLabel, markup)
     @clockLabel = clockLabel
     @markup = markup
+		@tick = true
     puts "Clock Initialized"
   end
 
@@ -18,14 +20,19 @@ class Clock
 
 	def clockUpdate
     time = Time.now
-		@clockLabel.set_markup(@markup % "#{time.strftime("%H")}:#{time.strftime("%M")}")
+		if @tick
+			@clockLabel.set_markup(@markup % ("#{time.strftime("%H")}:#{time.strftime("%M")}"))
+		else
+			@clockLabel.set_markup(@markup % ("#{time.strftime("%H")} #{time.strftime("%M")}"))
+		end
+		@tick = !@tick
 	end
 
   def startClock
     @tickTock = Thread.new do
       until @interrupt do
 				clockUpdate
-        sleep 1
+        sleep 0.5
       end
     end    
   end
