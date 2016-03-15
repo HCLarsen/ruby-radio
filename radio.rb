@@ -8,11 +8,18 @@ class Radio
 											{:name => "99.9 Virgin Radio", :desc => "Top 40", :addr=>"http://ckfm-mp3.akacast.akamaistream.net/7/318/102120/v1/astral.akacast.akamaistream.net/ckfm-mp3"}]
   end
 
-	def addRadioStations
+	def addRadioStations(radioList)
 		@mpd.clear
-		@radioStations.each do |station|
+		@radioStations.each_with_index do |station, i|
 			# must also add to radio display
 			@mpd.add station[:addr]
+       label = Gtk::Label.new
+       label.set_markup('<span font_desc="16">%s</span>' % station[:name] + "\n" + station[:desc])
+       button = Gtk::Button.new
+       button.add(label)
+       button.set_alignment(0,0.5)
+       button.signal_connect('clicked') { start_radio(i)}
+       radioList.add(button)
 		end
 	end
 
@@ -29,12 +36,10 @@ class Radio
   end
 
   def toggle
-    status = @mpd.status
-    if status[:state] == :play
-      @mpd.stop
-    else
-      @mpd.play
-      song = @mpd.current_song
-    end
+		if @mpd.playing?
+			@mpd.stop
+		else
+			@mpd.play
+		end
   end
 end

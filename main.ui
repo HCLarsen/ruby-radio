@@ -6,54 +6,30 @@
     <property name="default_height">240</property>
     <property name="hide_titlebar_when_maximized">True</property>
     <property name="has_resize_grip">False</property>
-      <child>
-        <object class="GtkStack" id="stack">
+    <child>
+      <object class="GtkStack" id="topStack">
   	  	<child>
-	    		<!-- Default clock display -->
+      		<!-- Default clock display -->
   	      <object class="GtkEventBox" id="clockView">
   					<child>
   						<object class="GtkLabel" id="timeLabel">
-				        <property name="label" translatable="yes">12:00</property>
+  			        <property name="label" translatable="yes">12:00</property>
   						</object>
   					</child>
   				</object>
   			</child>
-  			<child>
-					<!-- List of Radio stations -->
-  				<object class="GtkScrolledWindow" id="mainView">
-  					<child>
-  						<object class="GtkBox" id="radioList">
-  							<property name="orientation">vertical</property>
-				        <child>
-				          <object class="GtkEventBox" id="mainHeader">
-				            <property name="visible">True</property>
-				            <property name="can_focus">False</property>
-				            <child>
-				              <object class="GtkLabel" id="mainClock">
-				                <property name="visible">True</property>
-				                <property name="can_focus">False</property>
-				                <property name="label" translatable="yes">12:00</property>
-				              </object>
-				            </child>
-				          </object>
-				          <packing>
-  			            <property name="expand">False</property>
-  			            <property name="fill">True</property>
-  			            <property name="position">0</property>
-				          </packing>
-				        </child>
-  						</object>
-  					</child>
-  	    	</object>
-  	  	</child>
-				<child>
-          <!-- Radio Player Screen -->
-          <object class="GtkBox" id="radioView">
-						<property name="orientation">vertical</property>
+        <child>
+          <!-- Main display -->
+          <object class="GtkBox" id="mainView">
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkEventBox" id="radioHeader">
+              <object class="GtkEventBox" id="mainHeader">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="radioClock">
+                  <object class="GtkLabel" id="mainClock">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="label" translatable="yes">12:00</property>
                   </object>
                 </child>
@@ -62,39 +38,40 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
-              </packing>
+              </packing>            
             </child>
             <child>
-              <object class="GtkEventBox" id="playerBox">
+              <object class="GtkStack" id="mainStack">
                 <child>
-                  <object class="GtkLabel" id="stationInfo">
+                  <!-- Buttons for different views will appear in here -->
+                  <object class="GtkBox" id="appList">
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkButton" id="radioButton">
+                        <property name="visible">True</property>
+                        <property name="label">Radio</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <!-- List of Radio stations -->
+                  <object class="GtkScrolledWindow" id="radioView">
+                    <child>
+                      <object class="GtkBox" id="radioList">
+                        <property name="orientation">vertical</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
               <packing>
                 <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
               </packing>
             </child>
-		        <child>
-    		      <object class="GtkScale" id="volumeScale">
-        		    <property name="visible">True</property>
-           			<property name="can_focus">True</property>
-    		        <property name="fill_level">100</property>
-            		<property name="round_digits">1</property>
-            		<property name="draw_value">False</property>
-		          </object>
-    		      <packing>
-        		    <property name="expand">False</property>
-            		<property name="fill">True</property>
-            		<property name="position">2</property>
-          		</packing>
-        		</child>
-					</object>
-				</child>
-  		</object>
-  	</child>
+          </object>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
-
