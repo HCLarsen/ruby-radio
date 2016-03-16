@@ -8,6 +8,7 @@ class Clock
     @markup = markup
 		@tick = true
     puts "Clock Initialized"
+		startClock
   end
 
   def setLabel(clockLabel)
@@ -27,6 +28,8 @@ class Clock
 		end
 		@tick = !@tick
 	end
+
+	private
 
   def startClock
     @tickTock = Thread.new do
