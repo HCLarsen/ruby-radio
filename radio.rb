@@ -1,19 +1,43 @@
 require 'ruby-mpd'
 
 class Radio
-  def initialize(stack, view, player)
+  def initialize(stack)
     @mpd = MPD.new 'localhost', 6600
     @mpd.connect
 
 		@stack = stack
-		@view = view
-		@player = player
 
 		@radioStations = [{:name => "Z103.5", :desc => "Top 40", :addr=>"http://ice8.securenetsystems.net/CIDC?&playSessionID=1454B12F-A7FA-81C5-CCF8EDB05FEC18B6"},
 											{:name => "99.9 Virgin Radio", :desc => "Top 40", :addr=>"http://ckfm-mp3.akacast.akamaistream.net/7/318/102120/v1/astral.akacast.akamaistream.net/ckfm-mp3"}]
 
-		addRadioStations(@view)
+		loadui
   end
+
+	def loadui
+    ui_file = "#{File.expand_path(File.dirname(__FILE__))}/radio.ui"
+    builder = Gtk::Builder.new
+    builder.add_from_file(ui_file)
+
+    @radioView = builder.get_object("radioView")
+    @radioList = builder.get_object("radioList")
+    @playerView = builder.get_object("playerView")
+    @playerBox = builder.get_object("playerBox")
+    @stationInfo = builder.get_object("stationInfo")
+    @volumeSlider = builder.get_object("volumeScale")
+
+		@playerBox.signal_connect('button-press-event') {toggle}
+		@volumeSlider.signal_connect('value_changed') { setVolume(@volumeSlider.value.to_i) }
+    @volumeSlider.set_range(0,100)
+    @volumeSlider.set_value(volume)
+
+		@stack.add(@radioView)
+		@stack.add(@playerView)
+		addRadioStations(@radioList)
+	end
+
+	def view
+		@radioView
+	end
 
   def volume
     @mpd.status[:volume]
@@ -24,8 +48,8 @@ class Radio
 	end
 
   def play(station)
-		@stack.set_visible_child(@player)
-		#@stationInfo.set_markup(MINOR_MARKUP % @station[:name])
+		@stack.set_visible_child(@playerView)
+		@stationInfo.set_markup('<span foreground="white" font_desc="monospace bold 28">%s</span>' % (@radioStations[station][:name] + "\n" + @radioStations[station][:desc]))
     @mpd.play(station)
   end
 

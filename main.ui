@@ -54,8 +54,8 @@
                     </child>
                   </object>
                 </child>
-                <child>
-                  <!-- List of Radio stations -->
+                <!--<child> List of Radio stations 
+                  
                   <object class="GtkScrolledWindow" id="radioView">
                     <child>
                       <object class="GtkBox" id="radioList">
@@ -63,9 +63,8 @@
                       </object>
                     </child>
                   </object>
-                </child>
-                <child>
-                  <!-- Radio Player Screen -->
+                </child>-->
+                <!--<child> <!-- Radio Player Screen
                   <object class="GtkBox" id="playerView">
                     <property name="orientation">vertical</property>
                     <child>
@@ -96,7 +95,7 @@
                       </packing>
                     </child>
                   </object>
-                </child>
+                </child>--> 
               </object>
               <packing>
                 <property name="expand">True</property>

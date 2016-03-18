@@ -13,17 +13,12 @@ class MainDisplay
 
     loadUi
 
-    @radio = Radio.new(@mainStack, @radioList, @playerView)
+    @radio = Radio.new(@mainStack)
     @clock = Clock.new(@timeLabel, MAJOR_MARKUP)
 
-    @clockView.signal_connect('button-press-event') { goToMainDisplay }
-    @mainHeader.signal_connect('button-press-event') { goToClockDisplay }
-		@radioButton.signal_connect('button-press-event') { goToRadioDisplay }
-		@playerBox.signal_connect('button-press-event') { @radio.toggle }
-
-		@volume.signal_connect('value_changed') { @radio.setVolume(@volume.value.to_i) }
-		@volume.set_range(0,100)
-		@volume.set_value(@radio.volume)
+    @clockView.signal_connect('button-press-event') {goToMainDisplay}
+    @mainHeader.signal_connect('button-press-event') {goToClockDisplay}
+		@radioButton.signal_connect('button-press-event') {goToDisplay(@radio.view)}
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
     @win.signal_connect("destroy") { Gtk.main_quit }
@@ -55,18 +50,18 @@ class MainDisplay
     @mainHeader = builder.get_object("mainHeader")
     @mainClock = builder.get_object("mainClock")
 		@radioButton = builder.get_object("radioButton")
-    @radioView = builder.get_object("radioView")
-    @radioList = builder.get_object("radioList")
+    #@radioView = builder.get_object("radioView")
+    #@radioList = builder.get_object("radioList")
 
-		@playerView = builder.get_object("playerView")
-    @playerBox = builder.get_object("playerBox")
-    @stationInfo = builder.get_object("stationInfo")
-		@volume = builder.get_object("volumeScale")
+		#@playerView = builder.get_object("playerView")
+    #@playerBox = builder.get_object("playerBox")
+    #@stationInfo = builder.get_object("stationInfo")
+		#@volume = builder.get_object("volumeScale")
   end
 
 	def goToDisplay(display)
-		@stack.set_visible_child(display)
-		@clock.clockUpdate
+		@mainStack.set_visible_child(display)
+		#@clock.clockUpdate
 	end
 
 	def goToRadioDisplay
