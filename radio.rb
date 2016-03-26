@@ -21,10 +21,12 @@ class Radio
     @radioView = builder.get_object("radioView")
     @radioList = builder.get_object("radioList")
     @playerView = builder.get_object("playerView")
+		@back = builder.get_object("backButton")
     @playerBox = builder.get_object("playerBox")
     @stationInfo = builder.get_object("stationInfo")
     @volumeSlider = builder.get_object("volumeScale")
 
+		@back.signal_connect('button-press-event') {@stack.set_visible_child(@radioView) }
 		@playerBox.signal_connect('button-press-event') {toggle}
 		@volumeSlider.signal_connect('value_changed') { setVolume(@volumeSlider.value.to_i) }
     @volumeSlider.set_range(0,100)
@@ -49,7 +51,7 @@ class Radio
 
   def play(station)
 		@stack.set_visible_child(@playerView)
-		@stationInfo.set_markup('<span foreground="white" font_desc="monospace bold 28">%s</span>' % (@radioStations[station][:name] + "\n" + @radioStations[station][:desc]))
+		@stationInfo.set_markup('<span foreground="white" font_desc="monospace bold 20">%s</span>' % (@radioStations[station][:name] + "\n" + @radioStations[station][:desc]))
     @mpd.play(station)
   end
 

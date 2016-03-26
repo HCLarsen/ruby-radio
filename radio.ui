@@ -10,6 +10,15 @@
   <!-- Radio Player Screen -->
   <object class="GtkBox" id="playerView">
     <property name="orientation">vertical</property>
+		<child>
+			<object class="GtkEventBox" id="backButton">
+				<child>
+          <object class="GtkLabel" id="back">
+						<property name="label">Stations</property>
+          </object>
+				</child>
+			</object>
+		</child>
     <child>
       <object class="GtkEventBox" id="playerBox">
         <child>

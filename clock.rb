@@ -7,7 +7,7 @@ class Clock
     @clockLabel = clockLabel
     @markup = markup
 		@tick = true
-    puts "Clock Initialized"
+		@alarm = Thread.new {}
 		startClock
   end
 
@@ -34,6 +34,12 @@ class Clock
   def startClock
     @tickTock = Thread.new do
       until @interrupt do
+				if Time.now.sec == 0 && !@alarm.status
+					@alarm = Thread.new do
+						# check the alarms and activate
+						sleep 1
+					end
+				end
 				clockUpdate
         sleep 0.5
       end

@@ -3,13 +3,13 @@ require_relative 'radio'
 
 class MainDisplay
 
-  MAJOR_MARKUP = '<span foreground="red" font_desc="monospace bold 84">%s</span>'
+  MAJOR_MARKUP = '<span foreground="red" font_desc="monospace bold 80">%s</span>'
   MINOR_MARKUP = '<span foreground="white" font_desc="monospace bold 28">%s</span>'
 
   def initialize
-    @station_names = ["Z103.5\nTop 40", 
-                      "99.9 Virgin Radio\nTop 40", 
-                      "Flow 93.5\nHip-Hop and R&amp;B"]
+    #@station_names = ["Z103.5\nTop 40", 
+    #                  "99.9 Virgin Radio\nTop 40", 
+    #                  "Flow 93.5\nHip-Hop and R&amp;B"]
 
     loadUi
 
@@ -50,22 +50,10 @@ class MainDisplay
     @mainHeader = builder.get_object("mainHeader")
     @mainClock = builder.get_object("mainClock")
 		@radioButton = builder.get_object("radioButton")
-    #@radioView = builder.get_object("radioView")
-    #@radioList = builder.get_object("radioList")
-
-		#@playerView = builder.get_object("playerView")
-    #@playerBox = builder.get_object("playerBox")
-    #@stationInfo = builder.get_object("stationInfo")
-		#@volume = builder.get_object("volumeScale")
   end
 
 	def goToDisplay(display)
 		@mainStack.set_visible_child(display)
-		#@clock.clockUpdate
-	end
-
-	def goToRadioDisplay
-		@mainStack.set_visible_child(@radioView)
 	end
 
   def goToClockDisplay
