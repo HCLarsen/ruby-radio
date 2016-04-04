@@ -7,14 +7,17 @@ class MainDisplay
   MINOR_MARKUP = '<span foreground="white" font_desc="monospace bold 28">%s</span>'
 
   def initialize
-    #@station_names = ["Z103.5\nTop 40", 
-    #                  "99.9 Virgin Radio\nTop 40", 
-    #                  "Flow 93.5\nHip-Hop and R&amp;B"]
-
     loadUi
 
     @radio = Radio.new(@mainStack)
     @clock = Clock.new(@timeLabel, MAJOR_MARKUP)
+
+    provider = Gtk::CssProvider.new
+    Dir.chdir(__dir__) do
+      provider.load(:data => File.read("day.css"))
+    end
+
+		apply_css(@win, provider)
 
     @clockView.signal_connect('button-press-event') {goToMainDisplay}
     @mainHeader.signal_connect('button-press-event') {goToClockDisplay}
@@ -68,6 +71,15 @@ class MainDisplay
     @clock.setLabel(@mainClock)
     @clock.setMarkup(MINOR_MARKUP)
 		@clock.clockUpdate
+  end
+
+  def apply_css(widget, provider)
+    widget.style_context.add_provider(provider, GLib::MAXUINT)
+    if widget.is_a?(Gtk::Container)
+      widget.each_all do |child|
+        apply_css(child, provider)
+      end
+    end
   end
 end
 
