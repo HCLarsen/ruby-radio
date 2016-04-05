@@ -13,7 +13,7 @@
   	      <object class="GtkEventBox" id="clockView">
   					<child>
   						<object class="GtkLabel" id="timeLabel">
-  			        <property name="label" translatable="yes">12:00</property>
+  			        <property name="label">12:00</property>
   						</object>
   					</child>
   				</object>

@@ -3,9 +3,8 @@ require 'byebug'
 
 class Clock
 
-  def initialize(clockLabel, markup)
+  def initialize(clockLabel)
     @clockLabel = clockLabel
-    @markup = markup
 		@tick = true
 		@alarm = Thread.new {}
 		startClock
@@ -15,16 +14,12 @@ class Clock
     @clockLabel = clockLabel
   end
 
-  def setMarkup(markup)
-    @markup = markup
-  end
-
 	def clockUpdate
     time = Time.now
 		if @tick
-			@clockLabel.set_markup(@markup % ("#{time.strftime("%H")}:#{time.strftime("%M")}"))
+			@clockLabel.set_text("#{time.strftime("%H")}:#{time.strftime("%M")}")
 		else
-			@clockLabel.set_markup(@markup % ("#{time.strftime("%H")} #{time.strftime("%M")}"))
+			@clockLabel.set_text("#{time.strftime("%H")} #{time.strftime("%M")}")
 		end
 		@tick = !@tick
 	end

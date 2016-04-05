@@ -3,14 +3,14 @@ require_relative 'radio'
 
 class MainDisplay
 
-  MAJOR_MARKUP = '<span foreground="red" font_desc="monospace bold 80">%s</span>'
-  MINOR_MARKUP = '<span foreground="white" font_desc="monospace bold 28">%s</span>'
+  #MAJOR_MARKUP = '<span foreground="red" font_desc="monospace bold 80">%s</span>'
+  #MINOR_MARKUP = '<span foreground="white" font_desc="monospace bold 28">%s</span>'
 
   def initialize
     loadUi
 
     @radio = Radio.new(@mainStack)
-    @clock = Clock.new(@timeLabel, MAJOR_MARKUP)
+    @clock = Clock.new(@timeLabel)
 
     provider = Gtk::CssProvider.new
     Dir.chdir(__dir__) do
@@ -18,6 +18,7 @@ class MainDisplay
     end
 
 		apply_css(@win, provider)
+		apply_css(@timeLabel, provider)
 
     @clockView.signal_connect('button-press-event') {goToMainDisplay}
     @mainHeader.signal_connect('button-press-event') {goToClockDisplay}
@@ -53,6 +54,9 @@ class MainDisplay
     @mainHeader = builder.get_object("mainHeader")
     @mainClock = builder.get_object("mainClock")
 		@radioButton = builder.get_object("radioButton")
+
+		@timeLabel.name = "timeLabel"
+		@mainClock.name = "mainClock"
   end
 
 	def goToDisplay(display)
@@ -62,14 +66,12 @@ class MainDisplay
   def goToClockDisplay
     @topStack.set_visible_child(@clockView)
     @clock.setLabel(@timeLabel)
-    @clock.setMarkup(MAJOR_MARKUP)
 		@clock.clockUpdate
   end
 
   def goToMainDisplay
     @topStack.set_visible_child(@mainView)
     @clock.setLabel(@mainClock)
-    @clock.setMarkup(MINOR_MARKUP)
 		@clock.clockUpdate
   end
 

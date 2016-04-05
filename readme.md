@@ -16,4 +16,6 @@ GUI is made possible by using the Gtk3 gem at https://rubygems.org/gems/gtk3
 
 # To Do
 
-At this point, all that is needed is hardware. I will have to find a suitable enclosure, and a speaker that can be connected to the audio jack.
+Improve the styling using CSS. The interface will look much nicer when completed.
+
+Design and 3D print a case for the entire project. This will require identifying some simple speakers.

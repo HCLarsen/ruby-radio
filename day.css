@@ -5,7 +5,7 @@
 	background-color: #000;
 }
 
-GtkButton > GtkLabel {
+GtkLabel {
   border-style: solid;
   border-width: 5px;
   border-color: #66e0ff;
@@ -20,13 +20,7 @@ GtkButton > GtkLabel {
 	border-style: none;
 }
 
-/* clock toolbar */
-
 #mainClock {
 	font-size: 28px;
 	border-style: none;
 }
-
-GtkEventBox {
-}
-
