@@ -70,6 +70,7 @@ class MainDisplay
     @topStack.set_visible_child(@mainView)
     @clock.setLabel(@mainClock)
 		@clock.clockUpdate
+		puts @timeLabel.style.font_desc
   end
 
   def apply_css(widget, provider)

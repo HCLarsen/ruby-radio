@@ -58,3 +58,12 @@ GtkLabel {
   background-color: lighter(#66e0ff);
 }
 
+.scale.slider {
+  border-width: 3px;
+  border-style: solid;
+  border-radius: 10px;
+  border-color: transparent;
+  background-clip: padding-box;
+  background-color: #66e0ff;
+}
+
