@@ -11,12 +11,9 @@
   <object class="GtkBox" id="playerView">
     <property name="orientation">vertical</property>
 		<child>
-			<object class="GtkEventBox" id="backButton">
-				<child>
-          <object class="GtkLabel" id="back">
-						<property name="label">Stations</property>
-          </object>
-				</child>
+			<object class="GtkButton" id="backButton">
+				<property name="visible">True</property>
+				<property name="label">Radio</property>
 			</object>
 		</child>
     <child>

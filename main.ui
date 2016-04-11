@@ -54,48 +54,6 @@
                     </child>
                   </object>
                 </child>
-                <!--<child> List of Radio stations 
-                  
-                  <object class="GtkScrolledWindow" id="radioView">
-                    <child>
-                      <object class="GtkBox" id="radioList">
-                        <property name="orientation">vertical</property>
-                      </object>
-                    </child>
-                  </object>
-                </child>-->
-                <!--<child> <!-- Radio Player Screen
-                  <object class="GtkBox" id="playerView">
-                    <property name="orientation">vertical</property>
-                    <child>
-                      <object class="GtkEventBox" id="playerBox">
-                        <child>
-                          <object class="GtkLabel" id="stationInfo">
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkScale" id="volumeScale">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="fill_level">100</property>
-                        <property name="round_digits">1</property>
-                        <property name="draw_value">False</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>--> 
               </object>
               <packing>
                 <property name="expand">True</property>
