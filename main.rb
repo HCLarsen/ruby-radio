@@ -28,11 +28,6 @@ class MainDisplay
 
     @win.show_all
 
-		#if (system "rvm") == nil # RVM is not installed in deployment environment
-		#	@win.fullscreen
-		#	@win.window.set_cursor(Gdk::Cursor.new(Gdk::Cursor::BLANK_CURSOR))
-		#end
-
     Gtk.main
   end
 
