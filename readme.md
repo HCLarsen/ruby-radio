@@ -18,4 +18,9 @@ GUI is made possible by using the Gtk3 gem at https://rubygems.org/gems/gtk3
 
 Improve the styling using CSS. The interface will look much nicer when completed.
 
+Add iCloud interface.
+
+Add alarm features.
+
 Design and 3D print a case for the entire project. This will require identifying some simple speakers.
+
