@@ -36,7 +36,6 @@ class MainDisplay
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
 
-    #creates objects from the builder
     @win = builder.get_object("win")
     @topStack = builder.get_object("topStack")
 		@mainStack = builder.get_object("mainStack")
