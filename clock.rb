@@ -5,9 +5,9 @@ class Clock
 
   def initialize(clockLabel)
     @clockLabel = clockLabel
-		@tick = true
-		@alarm = Thread.new {}
-		startClock
+    @tick = true
+    @alarm = Thread.new {}
+    startClock
   end
 
   def setLabel(clockLabel)
