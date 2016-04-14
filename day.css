@@ -1,5 +1,7 @@
 @import url("reset.css");
 
+@define-color fblue #66e0ff;
+
 * {
 	color: #FFF;
 	background-color: #000;
@@ -17,7 +19,7 @@ GtkEventBox {
 GtkLabel {
   border-style: solid;
   border-width: 5px;
-  border-color: #66e0ff;
+  border-color: @fblue;
   border-radius: 5px;	
 }
 
@@ -40,21 +42,22 @@ GtkLabel {
 	margin: 8px;
 }
 
-.scrollbar.trough,
-.scrollbars-junction {
-  background-color: #000;
+#stationInfo {
+	font-size: 24px;
+  font-weight: bold;
 }
 
-.scrollbar.slider {
+.scrollbar.slider,
+.scale.slider {
   border-width: 3px;
   border-style: solid;
   border-radius: 10px;
   border-color: transparent;
   background-clip: padding-box;
-  background-color: #66e0ff;
+  background-color: @fblue;
 }
 
-.scrollbar.slider:prelight {
-  background-color: lighter(#66e0ff);
+.scrollbar.slider:prelight,
+.scale.slider:prelight {
+  background-color: lighter(@fblue);
 }
-

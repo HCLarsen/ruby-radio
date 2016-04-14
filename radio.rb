@@ -5,14 +5,14 @@ class Radio
     @mpd = MPD.new 'localhost', 6600
     @mpd.connect
 
-		@stack = stack
+    @stack = stack
 
-		@radioStations = [{:name=> "Z103.5", :desc=> "Top 40", :addr=>"http://ice8.securenetsystems.net/CIDC?&playSessionID=1454B12F-A7FA-81C5-CCF8EDB05FEC18B6"},
-											{:name=> "99.9 Virgin Radio", :desc=> "Top 40", :addr=>"http://ckfm-mp3.akacast.akamaistream.net/7/318/102120/v1/astral.akacast.akamaistream.net/ckfm-mp3"},
-											{:name=> "93.5 The Move", :desc=> "Throwbacks", :addr=>"http://3353.live.streamtheworld.com:443/CFXJFM_SC"},
-											{:name=> "92.5 KISS FM", :desc=> "Top 40", :addr=>"http://204.2.199.166:80/7/288/80873/v1/rogers.akacast.akamaistream.net/tor925"}]
+    @radioStations = [{:name=> "Z103.5", :desc=> "Top 40", :addr=>"http://ice8.securenetsystems.net/CIDC?&playSessionID=1454B12F-A7FA-81C5-CCF8EDB05FEC18B6"},
+                      {:name=> "99.9 Virgin Radio", :desc=> "Top 40", :addr=>"http://ckfm-mp3.akacast.akamaistream.net/7/318/102120/v1/astral.akacast.akamaistream.net/ckfm-mp3"},
+                      {:name=> "93.5 The Move", :desc=> "Throwbacks", :addr=>"http://3353.live.streamtheworld.com:443/CFXJFM_SC"},
+                      {:name=> "92.5 KISS FM", :desc=> "Top 40", :addr=>"http://204.2.199.166:80/7/288/80873/v1/rogers.akacast.akamaistream.net/tor925"}]
 
-		loadui
+    loadui
   end
 
 	def loadui
@@ -23,20 +23,22 @@ class Radio
     @radioView = builder.get_object("radioView")
     @radioList = builder.get_object("radioList")
     @playerView = builder.get_object("playerView")
-		@back = builder.get_object("backButton")
+    @back = builder.get_object("backButton")
     @playerBox = builder.get_object("playerBox")
     @stationInfo = builder.get_object("stationInfo")
     @volumeSlider = builder.get_object("volumeScale")
 
-		@back.signal_connect('button-press-event') {@stack.set_visible_child(@radioView) }
-		@playerBox.signal_connect('button-press-event') {toggle}
-		@volumeSlider.signal_connect('value_changed') { setVolume(@volumeSlider.value.to_i) }
+    @stationInfo.name = "stationInfo"
+
+    @back.signal_connect('button-press-event') {@stack.set_visible_child(@radioView) }
+    @playerBox.signal_connect('button-press-event') {toggle}
+    @volumeSlider.signal_connect('value_changed') { setVolume(@volumeSlider.value.to_i) }
     @volumeSlider.set_range(0,100)
     @volumeSlider.set_value(volume)
 
-		@stack.add(@radioView)
-		@stack.add(@playerView)
-		addRadioStations(@radioList)
+    @stack.add(@radioView)
+    @stack.add(@playerView)
+    addRadioStations(@radioList)
 	end
 
 	def view
@@ -47,29 +49,31 @@ class Radio
     @mpd.status[:volume]
   end
 
-	def setVolume(vol)
-		@mpd.volume = vol
-	end
+  def setVolume(vol)
+    @mpd.volume = vol
+  end
 
   def play(station)
-		@stack.set_visible_child(@playerView)
-		@stationInfo.set_markup('<span foreground="white" font_desc="monospace bold 20">%s</span>' % (@radioStations[station][:name] + "\n" + @radioStations[station][:desc]))
-    @mpd.play(station)
+    @stack.set_visible_child(@playerView)
+    @stationInfo.set_text(@radioStations[station][:name] + "\n" + @radioStations[station][:desc])
+    unless @mpd.playing? && @mpd.status[:song] == station
+      @mpd.play(station)
+    end
   end
 
   def toggle
-		if @mpd.playing?
-			@mpd.stop
-		else
-			@mpd.play
-		end
+    if @mpd.playing?
+      @mpd.stop
+    else
+      @mpd.play
+    end
   end
 
 	private
 
 	def addRadioStations(radioList)
-		@mpd.clear
-		@radioStations.each_with_index do |station, i|
+    @mpd.clear
+    @radioStations.each_with_index do |station, i|
 			@mpd.add station[:addr]
 			label = Gtk::Label.new
       label.set_markup('<span font_desc="16">%s</span>' % station[:name] + "\n" + station[:desc])
@@ -78,6 +82,6 @@ class Radio
       button.set_alignment(0,0.5)
       button.signal_connect('clicked') { play(i)}
       radioList.add(button)
-		end
-	end
+    end
+  end
 end
