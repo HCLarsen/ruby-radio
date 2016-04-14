@@ -15,7 +15,7 @@ class Radio
     loadui
   end
 
-	def loadui
+  def loadui
     ui_file = "#{File.expand_path(File.dirname(__FILE__))}/radio.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
@@ -39,11 +39,11 @@ class Radio
     @stack.add(@radioView)
     @stack.add(@playerView)
     addRadioStations(@radioList)
-	end
+  end
 
-	def view
-		@radioView
-	end
+  def view
+    @radioView
+  end
 
   def volume
     @mpd.status[:volume]
@@ -69,13 +69,13 @@ class Radio
     end
   end
 
-	private
+  private
 
-	def addRadioStations(radioList)
+  def addRadioStations(radioList)
     @mpd.clear
     @radioStations.each_with_index do |station, i|
-			@mpd.add station[:addr]
-			label = Gtk::Label.new
+      @mpd.add station[:addr]
+      label = Gtk::Label.new
       label.set_markup('<span font_desc="16">%s</span>' % station[:name] + "\n" + station[:desc])
       button = Gtk::Button.new
       button.add(label)

@@ -9,15 +9,15 @@
     <child>
       <object class="GtkStack" id="topStack">
   	  	<child>
-      		<!-- Default clock display -->
-  	      <object class="GtkEventBox" id="clockView">
-  					<child>
-  						<object class="GtkLabel" id="timeLabel">
-  			        <property name="label">12:00</property>
-  						</object>
-  					</child>
-  				</object>
-  			</child>
+          <!-- Default clock display -->
+          <object class="GtkEventBox" id="clockView">
+  		    <child>
+              <object class="GtkLabel" id="timeLabel">
+  			    <property name="label">12:00</property>
+              </object>
+            </child>
+  			</object>
+  		  </child>
         <child>
           <!-- Main display -->
           <object class="GtkBox" id="mainView">
@@ -38,7 +38,7 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
-              </packing>            
+              </packing>
             </child>
             <child>
               <object class="GtkStack" id="mainStack">

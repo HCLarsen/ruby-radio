@@ -1,6 +1,12 @@
 @import url("reset.css");
 
 @define-color fblue #66e0ff;
+@define-color tron_blue #6FC3DF;
+
+@define-color tron_orange #DF740C;
+@define-color tron_yellow #FFE64D;
+@define-color pane #E6FFFF;
+@define-color tron_cyan #6FC3DF;
 
 * {
 	color: #FFF;
