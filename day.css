@@ -1,15 +1,12 @@
 @import url("reset.css");
 
-@define-color fblue #66e0ff;
-@define-color tron_blue #6FC3DF;
-
 @define-color tron_orange #DF740C;
 @define-color tron_yellow #FFE64D;
 @define-color pane #E6FFFF;
 @define-color tron_cyan #6FC3DF;
 
 * {
-	color: #FFF;
+	color: @pane;
 	background-color: #000;
 }
 
@@ -18,14 +15,14 @@ GtkContainer {
 }
 
 GtkEventBox {
-	padding: 5px;
-	margin: 5px;
+	padding: 8px;
+	margin: 8px;
 }
 
 GtkLabel {
   border-style: solid;
   border-width: 5px;
-  border-color: @fblue;
+  border-color: @tron_cyan;
   border-radius: 5px;	
 }
 
@@ -34,14 +31,14 @@ GtkLabel {
 #timeLabel {
 	font: Roboto;
 	font-size: 80px;
-	color: #F00;
-	border-style: none;
+	color: @tron_orange;
+	border: none;
 }
 
 #mainClock {
 	font: Roboto;
 	font-size: 28px;
-	border-style: none;
+	border: none;
 }
 
 .button {
@@ -60,10 +57,10 @@ GtkLabel {
   border-radius: 10px;
   border-color: transparent;
   background-clip: padding-box;
-  background-color: @fblue;
+  background-color: @tron_cyan;
 }
 
 .scrollbar.slider:prelight,
 .scale.slider:prelight {
-  background-color: lighter(@fblue);
+  background-color: lighter(@tron_cyan);
 }

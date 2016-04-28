@@ -42,10 +42,16 @@
             </child>
             <child>
               <object class="GtkStack" id="mainStack">
+                <!-- Buttons for different views will appear in here -->
                 <child>
-                  <!-- Buttons for different views will appear in here -->
                   <object class="GtkBox" id="appList">
                     <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkButton" id="clockButton">
+                        <property name="visible">True</property>
+                        <property name="label">Clock</property>
+                      </object>
+                    </child>
                     <child>
                       <object class="GtkButton" id="radioButton">
                         <property name="visible">True</property>
