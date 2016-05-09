@@ -6,47 +6,47 @@
 @define-color tron_cyan #6FC3DF;
 
 * {
-	color: @pane;
-	background-color: #000;
+  color: @pane;
+  background-color: #000;
 }
 
 GtkContainer {
-	padding: 3px;
+  padding: 3px;
 }
 
 GtkEventBox {
-	padding: 8px;
-	margin: 8px;
+  padding: 8px;
+  margin: 8px;
 }
 
 GtkLabel {
   border-style: solid;
   border-width: 5px;
   border-color: @tron_cyan;
-  border-radius: 5px;	
+  border-radius: 5px;  
 }
 
 /* main clock display */
 
 #timeLabel {
-	font: Roboto;
-	font-size: 80px;
-	color: @tron_orange;
-	border: none;
+  font: Roboto;
+  font-size: 80px;
+  color: @tron_orange;
+  border: none;
 }
 
 #mainClock {
-	font: Roboto;
-	font-size: 28px;
-	border: none;
+  font: Roboto;
+  font-size: 28px;
+  border: none;
 }
 
 .button {
-	margin: 8px;
+  margin: 8px;
 }
 
 #stationInfo {
-	font-size: 24px;
+  font-size: 24px;
   font-weight: bold;
 }
 

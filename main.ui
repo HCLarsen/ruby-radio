@@ -8,16 +8,16 @@
     <property name="has_resize_grip">False</property>
     <child>
       <object class="GtkStack" id="topStack">
-  	  	<child>
+        <child>
           <!-- Default clock display -->
           <object class="GtkEventBox" id="clockView">
-  		    <child>
+          <child>
               <object class="GtkLabel" id="timeLabel">
-  			    <property name="label">12:00</property>
+            <property name="label">12:00</property>
               </object>
             </child>
-  			</object>
-  		  </child>
+        </object>
+        </child>
         <child>
           <!-- Main display -->
           <object class="GtkBox" id="mainView">

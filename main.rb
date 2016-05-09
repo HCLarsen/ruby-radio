@@ -19,7 +19,7 @@ class MainDisplay
 
     @clockView.signal_connect('button-press-event') {goToMainDisplay}
     @mainHeader.signal_connect('button-press-event') {goToDisplay(@appView)}
-		@clockButton.signal_connect('button-press-event') {goToClockDisplay}
+    @clockButton.signal_connect('button-press-event') {goToClockDisplay}
     @radioButton.signal_connect('button-press-event') {goToDisplay(@radio.view)}
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
@@ -40,22 +40,22 @@ class MainDisplay
     @win = builder.get_object("win")
     @topStack = builder.get_object("topStack")
     @mainStack = builder.get_object("mainStack")
-		@appView = builder.get_object("appList")
+    @appView = builder.get_object("appList")
     @clockView = builder.get_object("clockView")
     @timeLabel = builder.get_object("timeLabel")
     @mainView = builder.get_object("mainView")
     @mainHeader = builder.get_object("mainHeader")
     @mainClock = builder.get_object("mainClock")
-		@clockButton = builder.get_object("clockButton")
+    @clockButton = builder.get_object("clockButton")
     @radioButton = builder.get_object("radioButton")
 
     @timeLabel.name = "timeLabel"
     @mainClock.name = "mainClock"
   end
 
-	def goToDisplay(display)
+  def goToDisplay(display)
       @mainStack.set_visible_child(display)
-	end
+  end
 
   def goToClockDisplay
     @topStack.set_visible_child(@clockView)
