@@ -58,6 +58,12 @@
                         <property name="label">Radio</property>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkButton" id="weatherButton">
+                        <property name="visible">True</property>
+                        <property name="label">Weather</property>
+                      </object>
+                    </child>
                   </object>
                 </child>
               </object>
