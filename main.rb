@@ -9,7 +9,7 @@ class MainDisplay
 
     @clock = Clock.new(@timeLabel)
     @radio = Radio.new(@mainStack)
-		@weather = Weather.new(@mainStack)
+    @weather = Weather.new(@mainStack)
 
     provider = Gtk::CssProvider.new
     Dir.chdir(__dir__) do
@@ -23,7 +23,7 @@ class MainDisplay
     @mainHeader.signal_connect('button-press-event') {goToDisplay(@appView)}
     @clockButton.signal_connect('button-press-event') {goToClockDisplay}
     @radioButton.signal_connect('button-press-event') {goToDisplay(@radio.view)}
-		@weatherButton.signal_connect('button-press-event') {goToDisplay(@weather.view)}
+    @weatherButton.signal_connect('button-press-event') {goToDisplay(@weather.view)}
 
     @win.override_background_color(:normal, Gdk::RGBA.new(0, 0, 0, 1))
     @win.signal_connect("destroy") { Gtk.main_quit }
@@ -51,14 +51,14 @@ class MainDisplay
     @mainClock = builder.get_object("mainClock")
     @clockButton = builder.get_object("clockButton")
     @radioButton = builder.get_object("radioButton")
-		@weatherButton = builder.get_object("weatherButton")
+    @weatherButton = builder.get_object("weatherButton")
 
     @timeLabel.name = "timeLabel"
     @mainClock.name = "mainClock"
   end
 
   def goToDisplay(display)
-  	@mainStack.set_visible_child(display)
+    @mainStack.set_visible_child(display)
   end
 
   def goToClockDisplay
