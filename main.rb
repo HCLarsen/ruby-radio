@@ -11,14 +11,14 @@ class MainDisplay
     @weather = Weather.new(@mainStack)
     @clock = Clock.new(@timeLabel, @radio, @weather)
 
-		sunrise, sunset = @weather.sunrise_and_sunset
+    sunrise, sunset = @weather.sunrise_and_sunset
     provider = Gtk::CssProvider.new
     Dir.chdir(__dir__) do
-			if sunrise && sunset && Time.now > sunrise && Time.now < sunset
-	      provider.load(:data => File.read("day.css"))
-			else
-	      provider.load(:data => File.read("night.css"))
-			end
+      if sunrise && sunset && Time.now > sunrise && Time.now < sunset
+        provider.load(:data => File.read("day.css"))
+      else
+        provider.load(:data => File.read("night.css"))
+      end
     end
 
     apply_css(@win, provider)
