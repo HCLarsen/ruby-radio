@@ -1,8 +1,8 @@
 @import url("main.css");
 
-@define-color tron_orange #DF740C;
 @define-color pane #E6FFFF;
 @define-color tron_cyan #6FC3DF;
+@define-color tron #7DFDFE;
 
 * {
   color: @pane;

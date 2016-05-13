@@ -38,6 +38,8 @@ class Weather
       temp = (weather["main"]["temp"]-273.15).round(1)
       wind  = weather["wind"]["speed"] * 3.6
       humidity = weather["main"]["humidity"]
+			image = "images/" + weather["weather"].first["icon"] + ".png"
+			puts @mainImage.set_file(image)
       @mainLabel.set_text("Conditions: #{main}\nTemperature: #{temp}")
       @extendedLabel.set_text("Windspeed: #{wind}\nHumidity: #{humidity}")    
     else

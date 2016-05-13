@@ -1,10 +1,11 @@
 @import url("main.css");
 
-@define-color tron_orange #DF740C;
-@define-color tron_yellow #FFE64D;
+@define-color tron_orange #FB8448;
+@define-color tron_yellow #FFF05F;
+@define-color red #FF0000;
 
 * {
-  color: @yellow;
+  color: @tron_yellow;
 }
 
 GtkLabel {
@@ -14,7 +15,7 @@ GtkLabel {
 /* main clock display */
 
 #timeLabel {
-  color: @tron_orange;
+  color: @red;
 }
 
 .scrollbar.slider,
