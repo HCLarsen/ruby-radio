@@ -29,20 +29,7 @@ class Weather
 
   def view
     showWeather
-    return @weatherView
-  end
-
-  def connectionError
-    # will display a connection error instead of the standard weather ui
-  end
-
-  def getWeather(city = "Mississauga")
-    uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=83658a490b36698e09e779d265859910&q=#{city}")
-    begin
-      JSON.parse(uri.read)
-    rescue
-      nil
-    end
+    @weatherView
   end
 
   def showWeather
@@ -54,7 +41,29 @@ class Weather
       @mainLabel.set_text("Conditions: #{main}\nTemperature: #{temp}")
       @extendedLabel.set_text("Windspeed: #{wind}\nHumidity: #{humidity}")    
     else
+      connectionError
+    end
+  end
 
+  def sunrise_and_sunset
+    weather = getWeather
+    sunrise = Time.at(weather["sys"]["sunrise"])
+    sunset = Time.at(weather["sys"]["sunset"])
+    [sunrise, sunset]
+  end
+
+  private
+
+  def connectionError
+    @mainLabel.set_text("Connection to weather server failed")
+  end
+
+  def getWeather(city = "Mississauga")
+    uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=83658a490b36698e09e779d265859910&q=#{city}")
+    begin
+      JSON.parse(uri.read)
+    rescue
+      nil
     end
   end
 end

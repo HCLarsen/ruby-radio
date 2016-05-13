@@ -1,12 +1,14 @@
 require 'gtk3'
 require 'byebug'
+require_relative 'weather'
 
 class Clock
-
-  def initialize(clockLabel)
+  def initialize(clockLabel, radio, weather)
     @clockLabel = clockLabel
+    @radio = radio
+    @weather = weather
     @tick = true
-    @alarm = Thread.new {}
+    @alarms = []
     startClock
   end
 
@@ -26,16 +28,30 @@ class Clock
 
   private
 
+  def checkAlarms
+    Thread.new do
+      if Time.now.min == 0 and Time.now.hour == 0
+        sunrise, sunset = @weather.sunrise_and_sunset
+        alarms << {:time => sunrise, :actions => ["setDayMode"]}
+        alarms << {:time => sunset, :actions => ["setNightMode"]}
+      end
+      if Time.now.min == 45
+        # download, sort and store alarms
+      end
+      alarms.each do |alarm|
+        if alarm[:time].hour == Time.now.hour && alarm[:time].min == Time.now.min
+          alarm[:actions].each {|command| @app.send command}
+        end
+      end
+      sleep 1
+    end
+  end
+
   def startClock
     @tickTock = Thread.new do
       while true
-        if Time.now.sec == 0 && !@alarm.status
-          @alarm = Thread.new do
-            # check the alarms and activate
-            sleep 1
-          end
-        elsif Time.now.sec == 0 && Time.now.min == 45
-          # download and store alarms
+        if Time.now.sec == 0
+          checkAlarms
         end
         clockUpdate
         sleep 0.5

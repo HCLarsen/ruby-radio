@@ -7,9 +7,9 @@ class MainDisplay
   def initialize
     loadUi
 
-    @clock = Clock.new(@timeLabel)
     @radio = Radio.new(@mainStack)
     @weather = Weather.new(@mainStack)
+    @clock = Clock.new(@timeLabel, @radio, @weather)
 
     provider = Gtk::CssProvider.new
     Dir.chdir(__dir__) do

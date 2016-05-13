@@ -1,29 +1,28 @@
 @import url("main.css");
 
 @define-color tron_orange #DF740C;
-@define-color pane #E6FFFF;
-@define-color tron_cyan #6FC3DF;
+@define-color tron_yellow #FFE64D;
 
 * {
-  color: @pane;
+  color: @yellow;
 }
 
 GtkLabel {
-  border-color: @tron_cyan;
+  border-color: @tron_orange;
 }
 
 /* main clock display */
 
 #timeLabel {
-  color: @pane;
+  color: @tron_orange;
 }
 
 .scrollbar.slider,
 .scale.slider {
-  background-color: @tron_cyan;
+  background-color: @tron_orange;
 }
 
 .scrollbar.slider:prelight,
 .scale.slider:prelight {
-  background-color: lighter(@tron_cyan);
+  background-color: lighter(@tron_orange);
 }
