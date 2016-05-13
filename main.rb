@@ -15,9 +15,9 @@ class MainDisplay
     provider = Gtk::CssProvider.new
     Dir.chdir(__dir__) do
       if sunrise && sunset && Time.now > sunrise && Time.now < sunset
-        provider.load(:data => File.read("day.css"))
+        provider.load(:data => File.read("stylesheets/day.css"))
       else
-        provider.load(:data => File.read("night.css"))
+        provider.load(:data => File.read("stylesheets/night.css"))
       end
     end
 
@@ -41,7 +41,7 @@ class MainDisplay
   end
 
   def loadUi
-    ui_file = "#{File.expand_path(File.dirname(__FILE__))}/main.ui"
+    ui_file = "#{File.expand_path(File.dirname(__FILE__))}/ui/main.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
 

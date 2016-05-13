@@ -16,7 +16,7 @@ class Radio
   end
 
   def loadui
-    ui_file = "#{File.expand_path(File.dirname(__FILE__))}/radio.ui"
+    ui_file = "#{File.expand_path(File.dirname(__FILE__))}/ui/radio.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
 
