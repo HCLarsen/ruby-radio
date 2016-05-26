@@ -59,9 +59,9 @@ class MainDisplay
 	def setNightMode(night = true)
 	  provider = Gtk::CssProvider.new
 		if night
-	    provider.load(:path => "stylesheets/night.css")
+	    provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/night.css")
 		else
-	    provider.load(:path => "stylesheets/day.css")
+	    provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/day.css")
 		end
     apply_css(@win, provider)
 	end
