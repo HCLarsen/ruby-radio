@@ -3,10 +3,11 @@ require 'byebug'
 require_relative 'weather'
 
 class Clock
-  def initialize(clockLabel, radio, weather)
+  def initialize(clockLabel, app)
     @clockLabel = clockLabel
-    @radio = radio
-    @weather = weather
+    @app = app
+    @radio = @app.radio
+    @weather = @app.weather
     @tick = true
     @alarms = []
     startClock
@@ -31,16 +32,17 @@ class Clock
   def checkAlarms
     Thread.new do
       if Time.now.min == 0 and Time.now.hour == 0
-        sunrise, sunset = @weather.sunrise_and_sunset
-        alarms << {:time => sunrise, :actions => ["setDayMode"]}
+        sunrise, sunset = @app.weather.sunrise_and_sunset
+        alarms << {:time => sunrise, :actions => ["setNightMode(false)"]}
         alarms << {:time => sunset, :actions => ["setNightMode"]}
+        alarms = alarms.sort_by { |hsh| hsh[:time] }
       end
       if Time.now.min == 45
         # download, sort and store alarms
       end
       alarms.each do |alarm|
         if alarm[:time].hour == Time.now.hour && alarm[:time].min == Time.now.min
-          alarm[:actions].each {|command| @app.send command}
+          # alarm[:actions].each {|command| @app.send command}
         end
       end
       sleep 1

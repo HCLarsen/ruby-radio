@@ -36,12 +36,17 @@ class Weather
     if weather = getWeather
       main = weather["weather"].first["main"]
       temp = (weather["main"]["temp"]-273.15).round(1)
-      wind  = weather["wind"]["speed"] * 3.6
+      windSpeed  = (weather["wind"]["speed"] * 3.6).round(1)
       humidity = weather["main"]["humidity"]
       image = "images/" + weather["weather"].first["icon"] + ".png"
       @mainImage.set_file(image)
-      @mainLabel.set_text("Conditions: #{main}\nTemperature: #{temp}")
-      @extendedLabel.set_text("Windspeed: #{wind}\nHumidity: #{humidity}")    
+      @mainLabel.set_text("Conditions: #{main}\nTemperature: #{temp}oC")
+      if windSpeed > 5 && temp < 10
+        windChill = (13.12 + 0.6215 * temp - 11.37 * windSpeed ** 0.16 + 0.3965 * temp * windSpeed ** 0.16).round(1)
+        @extendedLabel.set_text("Wind Speed: #{windSpeed}km/h\tWindchill: #{windChill}oC\nHumidity: #{humidity}%")
+      else
+        @extendedLabel.set_text("Wind Speed: #{windSpeed}km/h\nHumidity: #{humidity}%")
+      end
     else
       connectionError
     end
@@ -61,7 +66,7 @@ class Weather
   end
 
   def getWeather(city = "Mississauga")
-    uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=83658a490b36698e09e779d265859910&q=#{city}")
+    uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=83658a490b36698e09e779d265859910&q=#{URI.escape(city)}")
     begin
       JSON.parse(uri.read)
     rescue

@@ -9,20 +9,14 @@ class MainDisplay
 
     @radio = Radio.new(@mainStack)
     @weather = Weather.new(@mainStack)
-    @clock = Clock.new(@timeLabel, @radio, @weather)
+    @clock = Clock.new(@timeLabel, self)
 
     sunrise, sunset = @weather.sunrise_and_sunset
-    provider = Gtk::CssProvider.new
-    Dir.chdir(__dir__) do
-      if sunrise && sunset && Time.now > sunrise && Time.now < sunset
-        provider.load(:data => File.read("stylesheets/day.css"))
-      else
-        provider.load(:data => File.read("stylesheets/night.css"))
-      end
+    if sunrise && sunset && Time.now > sunrise && Time.now < sunset
+			setNightMode(false)
+    else
+			setNightMode(true)
     end
-
-    apply_css(@win, provider)
-    apply_css(@timeLabel, provider)
 
     @clockView.signal_connect('button-press-event') {goToMainDisplay}
     @mainHeader.signal_connect('button-press-event') {goToDisplay(@appView)}
@@ -61,6 +55,24 @@ class MainDisplay
     @timeLabel.name = "timeLabel"
     @mainClock.name = "mainClock"
   end
+
+	def setNightMode(night = true)
+	  provider = Gtk::CssProvider.new
+		if night
+	    provider.load(:path => "stylesheets/night.css")
+		else
+	    provider.load(:path => "stylesheets/day.css")
+		end
+    apply_css(@win, provider)
+	end
+
+	def weather
+		@weather
+	end
+
+	def radio
+		@radio
+	end
 
   def goToDisplay(display)
     @mainStack.set_visible_child(display)
