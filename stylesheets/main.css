@@ -33,6 +33,12 @@ GtkLabel {
   border: none;
 }
 
+#radioStatus {
+	font: Roboto;
+	font-size: 14px;
+	border: none;
+}
+
 .button {
   margin: 8px;
 }

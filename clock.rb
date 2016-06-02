@@ -1,6 +1,5 @@
 require 'gtk3'
 require 'byebug'
-require_relative 'weather'
 
 class Clock
   def initialize(clockLabel, app)
@@ -20,11 +19,12 @@ class Clock
   def clockUpdate
     time = Time.now
     if @tick
-      @clockLabel.set_text("#{time.strftime("%H")}:#{time.strftime("%M")}")
+      clockText = "#{time.strftime("%H")}:#{time.strftime("%M")}"
     else
-      @clockLabel.set_text("#{time.strftime("%H")} #{time.strftime("%M")}")
+      clockText = "#{time.strftime("%H")} #{time.strftime("%M")}"
     end
     @tick = !@tick
+    @clockLabel.set_text(clockText)    
   end
 
   private
@@ -33,14 +33,14 @@ class Clock
     Thread.new do
       if Time.now.min == 0 and Time.now.hour == 0
         sunrise, sunset = @app.weather.sunrise_and_sunset
-        alarms << {:time => sunrise, :actions => ["setNightMode(false)"]}
-        alarms << {:time => sunset, :actions => ["setNightMode"]}
-        alarms = alarms.sort_by { |hsh| hsh[:time] }
+        @alarms << {:time => sunrise, :actions => ["setNightMode(false)"]}
+        @alarms << {:time => sunset, :actions => ["setNightMode"]}
+        @alarms = alarms.sort_by { |hsh| hsh[:time] }
       end
       if Time.now.min == 45
         # download, sort and store alarms
       end
-      alarms.each do |alarm|
+      @alarms.each do |alarm|
         if alarm[:time].hour == Time.now.hour && alarm[:time].min == Time.now.min
           # alarm[:actions].each {|command| @app.send command}
         end

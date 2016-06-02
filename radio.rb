@@ -1,11 +1,12 @@
 require 'ruby-mpd'
 
 class Radio
-  def initialize(stack)
+  def initialize(stack, radioStatus)
     @mpd = MPD.new 'localhost', 6600
     @mpd.connect
 
     @stack = stack
+    @radioStatus = radioStatus
 
     @radioStations = [{:name=> "Z103.5", :desc=> "Top 40", :addr=>"http://ice8.securenetsystems.net/CIDC?&playSessionID=1454B12F-A7FA-81C5-CCF8EDB05FEC18B6"},
                       {:name=> "99.9 Virgin Radio", :desc=> "Top 40", :addr=>"http://ckfm-aac.akacast.akamaistream.net/7/811/102120/v1/astral.akacast.akamaistream.net/ckfm-aac"},
@@ -45,6 +46,11 @@ class Radio
     @radioView
   end
 
+  def currentStation
+    return "" unless @mpd.playing?
+    return @radioStations[@mpd.status[:song]][:name].split[0]
+  end
+
   def volume
     @mpd.status[:volume]
   end
@@ -58,6 +64,7 @@ class Radio
     @stationInfo.set_text(@radioStations[station][:name] + "\n" + @radioStations[station][:desc])
     unless @mpd.playing? && @mpd.status[:song] == station
       @mpd.play(station)
+      @radioStatus.set_text(currentStation)
     end
   end
 
@@ -67,6 +74,7 @@ class Radio
     else
       @mpd.play
     end
+    @radioStatus.set_text(currentStation)
   end
 
   private

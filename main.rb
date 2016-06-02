@@ -7,15 +7,15 @@ class MainDisplay
   def initialize
     loadUi
 
-    @radio = Radio.new(@mainStack)
+    @radio = Radio.new(@mainStack, @radioStatus)
     @weather = Weather.new(@mainStack)
     @clock = Clock.new(@timeLabel, self)
 
     sunrise, sunset = @weather.sunrise_and_sunset
     if sunrise && sunset && Time.now > sunrise && Time.now < sunset
-			setNightMode(false)
+      setNightMode(false)
     else
-			setNightMode(true)
+      setNightMode(true)
     end
 
     @clockView.signal_connect('button-press-event') {goToMainDisplay}
@@ -48,31 +48,36 @@ class MainDisplay
     @mainView = builder.get_object("mainView")
     @mainHeader = builder.get_object("mainHeader")
     @mainClock = builder.get_object("mainClock")
+    @radioStatus = builder.get_object("radioStatus")
     @clockButton = builder.get_object("clockButton")
     @radioButton = builder.get_object("radioButton")
     @weatherButton = builder.get_object("weatherButton")
 
     @timeLabel.name = "timeLabel"
     @mainClock.name = "mainClock"
+    @radioStatus.name = "radioStatus"
+
+    @radioStatus.width_chars = 6
+    @radioStatus.max_width_chars = 6
   end
 
-	def setNightMode(night = true)
-	  provider = Gtk::CssProvider.new
-		if night
-	    provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/night.css")
-		else
-	    provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/day.css")
-		end
+  def setNightMode(night = true)
+    provider = Gtk::CssProvider.new
+    if night
+      provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/night.css")
+    else
+      provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/day.css")
+    end
     apply_css(@win, provider)
-	end
+  end
 
-	def weather
-		@weather
-	end
+  def weather
+    @weather
+  end
 
-	def radio
-		@radio
-	end
+  def radio
+    @radio
+  end
 
   def goToDisplay(display)
     @mainStack.set_visible_child(display)
