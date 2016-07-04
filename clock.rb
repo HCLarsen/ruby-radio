@@ -5,8 +5,6 @@ class Clock
   def initialize(clockLabel, app)
     @clockLabel = clockLabel
     @app = app
-    #@radio = @app.radio
-    #@weather = @app.weather
     @tick = true
 
     @alarms = []
@@ -20,15 +18,16 @@ class Clock
     @clockLabel = clockLabel
   end
 
-  def clockUpdate
-    time = Time.now
+  def updateHeader(time)
     if @tick
       clockText = "#{time.strftime("%H")}:#{time.strftime("%M")}"
     else
       clockText = "#{time.strftime("%H")} #{time.strftime("%M")}"
     end
     @tick = !@tick
-    @clockLabel.set_text(clockText)    
+    @clockLabel.set_text(clockText)
+
+		@app.radio.updateStatus
   end
 
   private
@@ -43,7 +42,6 @@ class Clock
       end
       @alarms.each do |alarm|
         if alarm[:time].hour == Time.now.hour && alarm[:time].min == Time.now.min
-          # alarm[:actions].each {|command| @app.send command}
 					@app.instance_eval &alarm[:actions]
         end
       end
@@ -51,10 +49,12 @@ class Clock
   end
 
 	def loadSunriseAndSunset
-    sunrise, sunset = @app.weather.sunrise_and_sunset
-    @alarms << {:time => sunrise, :actions => Proc.new {setNightMode(false)}}
-    @alarms << {:time => sunset, :actions => Proc.new {setNightMode}}
-    @alarms = @alarms.sort_by { |hsh| hsh[:time] }		
+		if @app.weather
+    	sunrise, sunset = @app.weather.sunrise_and_sunset
+    	@alarms << {:time => sunrise, :actions => Proc.new {setNightMode(false)}}
+  	  @alarms << {:time => sunset, :actions => Proc.new {setNightMode}}
+	    @alarms = @alarms.sort_by { |hsh| hsh[:time] }		
+		end
 	end
 
 	def loadAlarms
@@ -69,12 +69,13 @@ class Clock
   def startClock
     @tickTock = Thread.new do
       while true
-        if Time.now.sec == 0
-  	      clockUpdate
+				time = Time.now
+        if time.sec == 0
+  	      clockUpdate(time)
           checkAlarms
 	        sleep 0.5
         end
-        clockUpdate
+        clockUpdate(time)
         sleep 0.5
       end
     end

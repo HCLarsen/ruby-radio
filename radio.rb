@@ -3,7 +3,7 @@ require 'ruby-mpd'
 class Radio
   def initialize(stack, radioStatus)
     @mpd = MPD.new 'localhost', 6600
-    @mpd.connect
+    @mpd.connect		
 
     @stack = stack
     @radioStatus = radioStatus
@@ -17,7 +17,7 @@ class Radio
   end
 
   def loadui
-    ui_file = "#{File.expand_path(File.dirname(__FILE__))}/ui/radio.ui"
+    ui_file = "#{File.expand_path(__dir__)}/ui/radio.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
 
@@ -47,9 +47,18 @@ class Radio
   end
 
   def currentStation
-    return "" unless @mpd.playing?
-    return @radioStations[@mpd.status[:song]][:name].split[0]
+		if !@mpd.playing?
+	    return ""
+		elsif @mpd.status[:error]
+			return "Error"
+		else
+	    return @radioStations[@mpd.status[:song]][:name].split[0]
+		end
   end
+
+	def updateStatus
+		@radioStatus.set_text(currentStation)
+	end
 
   def volume
     @mpd.status[:volume]
@@ -64,8 +73,8 @@ class Radio
     @stationInfo.set_text(@radioStations[station][:name] + "\n" + @radioStations[station][:desc])
     unless @mpd.playing? && @mpd.status[:song] == station
       @mpd.play(station)
-      @radioStatus.set_text(currentStation)
-    end
+			updateStatus
+	  end
   end
 
   def toggle
@@ -74,7 +83,7 @@ class Radio
     else
       @mpd.play
     end
-    @radioStatus.set_text(currentStation)
+		updateStatus
   end
 
   private

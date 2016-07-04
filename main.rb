@@ -1,3 +1,4 @@
+require "resolv"
 require_relative 'clock'
 require_relative 'radio'
 require_relative 'weather'
@@ -11,12 +12,16 @@ class MainDisplay
     @weather = Weather.new(@mainStack)
     @clock = Clock.new(@timeLabel, self)
 
-    sunrise, sunset = @weather.sunrise_and_sunset
-    if sunrise && sunset && Time.now > sunrise && Time.now < sunset
+		if @weather
+    	sunrise, sunset = @weather.sunrise_and_sunset
+  		if sunrise && sunset && Time.now > sunrise && Time.now < sunset
+	   		setNightMode(false)
+			else
+				setNightMode(true)
+	    end
+		else
       setNightMode(false)
-    else
-      setNightMode(true)
-    end
+		end
 
     @clockView.signal_connect('button-press-event') {goToMainDisplay}
     @mainHeader.signal_connect('button-press-event') {goToDisplay(@appView)}
@@ -35,7 +40,7 @@ class MainDisplay
   end
 
   def loadUi
-    ui_file = "#{File.expand_path(File.dirname(__FILE__))}/ui/main.ui"
+    ui_file = "#{File.expand_path(__dir__)}/ui/main.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
 
@@ -64,9 +69,9 @@ class MainDisplay
   def setNightMode(night = true)
     provider = Gtk::CssProvider.new
     if night
-      provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/night.css")
+      provider.load(:path => "#{File.expand_path(__dir__)}/stylesheets/night.css")
     else
-      provider.load(:path => "#{File.expand_path(File.dirname(__FILE__))}/stylesheets/day.css")
+      provider.load(:path => "#{File.expand_path(__dir__)}/stylesheets/day.css")
     end
     apply_css(@win, provider)
   end
@@ -86,14 +91,16 @@ class MainDisplay
   def goToClockDisplay
     @topStack.set_visible_child(@clockView)
     @clock.setLabel(@timeLabel)
-    @clock.clockUpdate
+    @clock.updateHeader(Time.now)
   end
 
   def goToMainDisplay
     @topStack.set_visible_child(@mainView)
     @clock.setLabel(@mainClock)
-    @clock.clockUpdate
+    @clock.updateHeader(Time.now)
   end
+
+	private
 
   def apply_css(widget, provider)
     widget.style_context.add_provider(provider, GLib::MAXUINT)
