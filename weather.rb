@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'json'
+require 'timeout' unless defined?(Timeout)
 
 class Weather
   def initialize(stack)
@@ -39,7 +40,7 @@ class Weather
       windSpeed  = (weather["wind"]["speed"] * 3.6).round(1)
       humidity = weather["main"]["humidity"]
       image = weather["weather"].first["icon"] + ".png"
-			imagePath = "#{File.expand_path(__dir__)}/images/" + image
+      imagePath = "#{File.expand_path(__dir__)}/images/" + image
       @mainImage.set_file(imagePath)
       @mainLabel.set_text("Conditions: #{main}\nTemperature: #{temp}oC")
       if windSpeed > 5 && temp < 10
@@ -55,23 +56,25 @@ class Weather
 
   def sunrise_and_sunset
     if weather = getWeather
-	    sunrise = Time.at(weather["sys"]["sunrise"])
-  	  sunset = Time.at(weather["sys"]["sunset"])
-    	[sunrise, sunset]
-		end
+      sunrise = Time.at(weather["sys"]["sunrise"])
+      sunset = Time.at(weather["sys"]["sunset"])
+      [sunrise, sunset]
+    end
   end
 
   private
 
   def connectionError
     @mainLabel.set_text("Connection to weather server failed")
-		@extendedLabel.set_text("No Connection to weather server")
+    @extendedLabel.set_text("No Connection to weather server")
   end
 
   def getWeather(city = "Mississauga")
     uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=83658a490b36698e09e779d265859910&q=#{URI.escape(city)}")
     begin
-      JSON.parse(uri.read({:open_timeout=>3}))
+      Timeout::timeout(3) do
+        JSON.parse(uri.read)
+      end
     rescue
       nil
     end

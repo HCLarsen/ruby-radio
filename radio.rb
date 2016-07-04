@@ -3,7 +3,7 @@ require 'ruby-mpd'
 class Radio
   def initialize(stack, radioStatus)
     @mpd = MPD.new 'localhost', 6600
-    @mpd.connect		
+    @mpd.connect    
 
     @stack = stack
     @radioStatus = radioStatus
@@ -47,18 +47,18 @@ class Radio
   end
 
   def currentStation
-		if !@mpd.playing?
-	    return ""
-		elsif @mpd.status[:error]
-			return "Error"
-		else
-	    return @radioStations[@mpd.status[:song]][:name].split[0]
-		end
+    if !@mpd.playing?
+      return ""
+    elsif @mpd.status[:error]
+      return "Error"
+    else
+      return @radioStations[@mpd.status[:song]][:name].split[0]
+    end
   end
 
-	def updateStatus
-		@radioStatus.set_text(currentStation)
-	end
+  def updateStatus
+    @radioStatus.set_text(currentStation)
+  end
 
   def volume
     @mpd.status[:volume]
@@ -73,8 +73,8 @@ class Radio
     @stationInfo.set_text(@radioStations[station][:name] + "\n" + @radioStations[station][:desc])
     unless @mpd.playing? && @mpd.status[:song] == station
       @mpd.play(station)
-			updateStatus
-	  end
+      updateStatus
+    end
   end
 
   def toggle
@@ -83,7 +83,7 @@ class Radio
     else
       @mpd.play
     end
-		updateStatus
+    updateStatus
   end
 
   private

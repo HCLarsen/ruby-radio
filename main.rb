@@ -12,16 +12,16 @@ class MainDisplay
     @weather = Weather.new(@mainStack)
     @clock = Clock.new(@timeLabel, self)
 
-		if @weather
-    	sunrise, sunset = @weather.sunrise_and_sunset
-  		if sunrise && sunset && Time.now > sunrise && Time.now < sunset
-	   		setNightMode(false)
-			else
-				setNightMode(true)
-	    end
-		else
+    if @weather
+      sunrise, sunset = @weather.sunrise_and_sunset
+      if sunrise && sunset && Time.now > sunrise && Time.now < sunset
+         setNightMode(false)
+      else
+        setNightMode(true)
+      end
+    else
       setNightMode(false)
-		end
+    end
 
     @clockView.signal_connect('button-press-event') {goToMainDisplay}
     @mainHeader.signal_connect('button-press-event') {goToDisplay(@appView)}
@@ -100,7 +100,7 @@ class MainDisplay
     @clock.updateHeader(Time.now)
   end
 
-	private
+  private
 
   def apply_css(widget, provider)
     widget.style_context.add_provider(provider, GLib::MAXUINT)
