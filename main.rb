@@ -76,6 +76,11 @@ class MainDisplay
     apply_css(@win, provider)
   end
 
+  def wakeUp(station = 0)
+    goToMainDisplay
+    @radio.play station
+  end
+
   def weather
     @weather
   end

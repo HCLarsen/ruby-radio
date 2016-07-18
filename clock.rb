@@ -1,11 +1,20 @@
 require 'gtk3'
 require 'byebug'
+require 'cronofy'
+
+class String
+  def camelCase
+    self.split.each.with_index { |word, i| i == 0 ? word.downcase! : word.capitalize!}.join
+  end
+end
 
 class Clock
   def initialize(clockLabel, app)
     @clockLabel = clockLabel
     @app = app
     @tick = true
+
+    @cronofy_token = ENV['CRONOFY_TOKEN']
 
     @alarms = []
     loadSunriseAndSunset
@@ -42,7 +51,7 @@ class Clock
       end
       @alarms.each do |alarm|
         if alarm[:time].hour == Time.now.hour && alarm[:time].min == Time.now.min
-          @app.instance_eval &alarm[:actions]
+          @app.instance_eval alarm[:actions]
         end
       end
     end
@@ -58,12 +67,23 @@ class Clock
   end
 
   def loadAlarms
+    cronofy = Cronofy::Client.new(access_token: "#{@cronofy_token}")
+    alarm_cal = cronofy.list_calendars.select { |cal| cal.calendar_name == "Alarms" }.first
+    events = cronofy.read_events(calendar_ids: alarm_cal.calendar_id)
+    events.each do | event |
+      alarm = {}
+      alarm[:time] = event.start.time.localtime
+      alarm[:actions] = event.description.camelCase
+      @alarms << alarm
+    end
+    @alarms = @alarms.sort_by { |hsh| hsh[:time] }
+    byebug
+
     # test code
-    #@alarms << {:time=> Time.now + 60,:actions => Proc.new { puts "#{self} First alarm" }}
-    #@alarms << {:time=> Time.now + 120,:actions => Proc.new { puts "#{self} Second alarm" }}
-    #@alarms << {:time=> Time.now + 180,:actions => Proc.new { puts "#{self} Third alarm" }}
+    #@alarms << {:time=> Time.now + 60,:actions => 'puts "#{self} First alarm"' }
+     #@alarms << {:time=> Time.now + 120,:actions => 'puts "#{self} Second alarm"' }
+    #@alarms << {:time=> Time.now + 180,:actions => 'puts "#{self} Third alarm"' }
     #@alarms = @alarms.sort_by { |hsh| hsh[:time] }
-    # download, sort and store alarms
   end
 
   def startClock
@@ -71,11 +91,11 @@ class Clock
       while true
         time = Time.now
         if time.sec == 0
-          clockUpdate(time)
+          updateHeader(time)
           checkAlarms
           sleep 0.5
         end
-        clockUpdate(time)
+        updateHeader(time)
         sleep 0.5
       end
     end
