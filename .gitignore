@@ -17,4 +17,4 @@
 /log/*.log
 
 # Ignore original BOM
-.numbers
+*.numbers
