@@ -4,15 +4,17 @@ By Chris Larsen
 
 Ruby v- 2.1.5
 
-This is a simple IoT clock radio. 
+This is a simple IoT clock radio.
 
 Hardware is a Raspberry Pi B+ with a 2.8" touchscreen.
 
-Radio is played through streaming internet radio stations, and controlled with the ruby-mpd gem at https://rubygems.org/gems/ruby-mpd.
+Radio is played through streaming internet radio stations, and controlled with the [ruby-mpd](https://rubygems.org/gems/ruby-mpd) gem.
 
 The clock is updated through the system clock.
 
-GUI is made possible by using the Gtk3 gem at https://rubygems.org/gems/gtk3
+GUI is made possible by using the [Gtk3](https://rubygems.org/gems/gtk3) gem
+
+Files for 3D printable casing can be found [here](https://a360.co/2QgYqZv).
 
 # Installation Instructions
 
@@ -25,6 +27,3 @@ GUI is made possible by using the Gtk3 gem at https://rubygems.org/gems/gtk3
 # To Do
 
 Improve the styling using CSS. The interface will look much nicer when completed.
-
-Design and 3D print a case for the entire project.
-
