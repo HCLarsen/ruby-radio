@@ -77,7 +77,7 @@ class Clock
       @alarms << alarm
     end
     @alarms = @alarms.sort_by { |hsh| hsh[:time] }
-    byebug
+    #byebug
 
     # test code
     #@alarms << {:time=> Time.now + 60,:actions => 'puts "#{self} First alarm"' }
