@@ -51,7 +51,7 @@ GEM
       cairo (>= 1.14.0)
       glib2 (= 3.1.0)
     pkg-config (1.1.7)
-    rack (1.6.5)
+    rack (1.6.11)
     ruby-mpd (0.3.3)
 
 PLATFORMS
@@ -61,8 +61,8 @@ DEPENDENCIES
   byebug
   cronofy
   gtk3
-  rack (= 1.6.5)
+  rack (= 1.6.11)
   ruby-mpd
 
 BUNDLED WITH
-   1.13.6
+   1.17.1
