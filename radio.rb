@@ -1,3 +1,4 @@
+require 'csv'
 require 'ruby-mpd'
 
 class Radio
@@ -7,12 +8,11 @@ class Radio
 
     @stack = stack
     @radioStatus = radioStatus
-
-    @radioStations = [{:name=> "Z103.5", :desc=> "Top 40", :addr=>"http://ice8.securenetsystems.net/CIDC?&playSessionID=1454B12F-A7FA-81C5-CCF8EDB05FEC18B6"},
-                      {:name=> "99.9 Virgin Radio", :desc=> "Top 40", :addr=>"http://ckfm-aac.akacast.akamaistream.net/7/811/102120/v1/astral.akacast.akamaistream.net/ckfm-aac"},
-                      {:name=> "93.5 The Move", :desc=> "Throwbacks", :addr=>"http://5833.live.streamtheworld.com:443/CFXJFM_SC"},
-                      {:name=> "92.5 KISS FM", :desc=> "Top 40", :addr=>"http://204.2.199.166:80/7/288/80873/v1/rogers.akacast.akamaistream.net/tor925"}]
-
+    
+		@radioStations = CSV.read("radiostations.csv").map do |row|
+			{ :name=> row[0], :desc=> row[1], :addr=> row[2] }
+		end
+		
     loadui
   end
 

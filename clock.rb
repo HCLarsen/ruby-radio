@@ -15,10 +15,10 @@ class Clock
     @tick = true
 
     @cronofy_token = ENV['CRONOFY_TOKEN']
-
+		
     @alarms = []
     loadSunriseAndSunset
-    loadAlarms
+#    loadAlarms
 
     startClock
   end
