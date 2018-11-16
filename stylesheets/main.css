@@ -22,19 +22,19 @@ GtkLabel {
 /* main clock display */
 
 #timeLabel {
-  font: Roboto;
+  font-family: Roboto;
   font-size: 80px;
   border: none;
 }
 
 #mainClock {
-  font: Roboto;
+  font-family: Roboto;
   font-size: 28px;
   border: none;
 }
 
 #radioStatus {
-  font: Roboto;
+  font-family: Roboto;
   font-size: 14px;
   border: none;
 }
@@ -57,6 +57,6 @@ GtkLabel {
   background-clip: padding-box;
 }
 
-.scrollbar.slider:prelight,
-.scale.slider:prelight {
+.scrollbar.slider:hover,
+.scale.slider:hover {
 }

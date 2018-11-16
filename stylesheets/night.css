@@ -23,7 +23,7 @@ GtkLabel {
   background-color: @tron_orange;
 }
 
-.scrollbar.slider:prelight,
-.scale.slider:prelight {
+.scrollbar.slider:hover,
+.scale.slider:hover {
   background-color: lighter(@tron_orange);
 }
