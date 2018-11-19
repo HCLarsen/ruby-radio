@@ -18,8 +18,8 @@ class Clock
 		
     @alarms = []
     loadSunriseAndSunset
-#    loadAlarms
-
+    loadAlarms if @cronofy_token
+		
     startClock
   end
 
