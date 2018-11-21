@@ -20,6 +20,11 @@ class Clock
     loadSunriseAndSunset
     loadAlarms if @cronofy_token
 		
+    # test code
+    #@alarms << {:time=> Time.now + 60, :actions => 'puts "#{self} First alarm"' }
+    #@alarms << {:time=> Time.now + 120, :actions => 'puts "#{self} Second alarm"' }
+    #@alarms << {:time=> Time.now + 180, :actions => 'puts "#{self} Third alarm"' }
+    
     startClock
   end
 
@@ -60,8 +65,8 @@ class Clock
   def loadSunriseAndSunset
     if @app.weather
       sunrise, sunset = @app.weather.sunrise_and_sunset
-      @alarms << {:time => sunrise, :actions => Proc.new {setNightMode(false)}}
-      @alarms << {:time => sunset, :actions => Proc.new {setNightMode}}
+      @alarms << {:time => sunrise, :actions => Proc.new {'setNightMode(false)'}}
+      @alarms << {:time => sunset, :actions => Proc.new {'setNightMode'}}
       @alarms = @alarms.sort_by { |hsh| hsh[:time] }    
     end
   end
@@ -76,14 +81,8 @@ class Clock
       alarm[:actions] = event.description.camelCase
       @alarms << alarm
     end
-    @alarms = @alarms.sort_by { |hsh| hsh[:time] }
-    #byebug
 
-    # test code
-    #@alarms << {:time=> Time.now + 60,:actions => 'puts "#{self} First alarm"' }
-     #@alarms << {:time=> Time.now + 120,:actions => 'puts "#{self} Second alarm"' }
-    #@alarms << {:time=> Time.now + 180,:actions => 'puts "#{self} Third alarm"' }
-    #@alarms = @alarms.sort_by { |hsh| hsh[:time] }
+    @alarms = @alarms.sort_by { |hsh| hsh[:time] }
   end
 
   def startClock
