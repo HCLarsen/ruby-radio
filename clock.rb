@@ -65,8 +65,8 @@ class Clock
   def loadSunriseAndSunset
     if @app.weather
       sunrise, sunset = @app.weather.sunrise_and_sunset
-      @alarms << {:time => sunrise, :actions => Proc.new {'setNightMode(false)'}}
-      @alarms << {:time => sunset, :actions => Proc.new {'setNightMode'}}
+      @alarms << {:time => sunrise, :actions => 'setNightMode(false)'}
+      @alarms << {:time => sunset, :actions => 'setNightMode'}
       @alarms = @alarms.sort_by { |hsh| hsh[:time] }    
     end
   end
