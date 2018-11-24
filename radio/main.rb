@@ -1,7 +1,7 @@
 require "resolv"
-require_relative 'clock'
-require_relative 'radio'
-require_relative 'weather'
+require_relative 'lib/clock'
+require_relative 'lib/radio'
+require_relative 'lib/weather'
 
 class MainDisplay
 

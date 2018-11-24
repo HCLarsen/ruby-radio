@@ -16,7 +16,7 @@ class Weather
   end
 
   def loadui
-    ui_file = "#{File.expand_path(__dir__)}/ui/weather.ui"
+    ui_file = "#{File.expand_path(__dir__)}/../ui/weather.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
 
@@ -40,7 +40,7 @@ class Weather
       windSpeed  = (weather["wind"]["speed"] * 3.6).round(1)
       humidity = weather["main"]["humidity"]
       image = weather["weather"].first["icon"] + ".png"
-      imagePath = "#{File.expand_path(__dir__)}/images/" + image
+      imagePath = "#{File.expand_path(__dir__)}/../images/" + image
       @mainImage.set_file(imagePath)
       @mainLabel.set_text("Conditions: #{main}\nTemperature: #{temp}oC")
       if windSpeed > 5 && temp < 10

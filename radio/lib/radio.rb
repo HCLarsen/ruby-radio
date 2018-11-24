@@ -9,7 +9,7 @@ class Radio
     @stack = stack
     @radioStatus = radioStatus
     
-		@radioStations = CSV.read("radiostations.csv").map do |row|
+		@radioStations = CSV.read("#{File.expand_path(__dir__)}/../radiostations.csv").map do |row|
 			{ :name=> row[0], :desc=> row[1], :addr=> row[2] }
 		end
 		
@@ -17,7 +17,7 @@ class Radio
   end
 
   def loadui
-    ui_file = "#{File.expand_path(__dir__)}/ui/radio.ui"
+    ui_file = "#{File.expand_path(__dir__)}/../ui/radio.ui"
     builder = Gtk::Builder.new
     builder.add_from_file(ui_file)
 
