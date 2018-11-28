@@ -29,14 +29,16 @@ class Radio
     @stationInfo = builder.get_object("stationInfo")
     @volumeSlider = builder.get_object("volumeScale")
 
+		@back.children.first.name = "bordered"
     @stationInfo.name = "stationInfo"
+    @volumeSlider.name = "slider"
 
     @back.signal_connect('button-press-event') {@stack.set_visible_child(@radioView) }
     @playerBox.signal_connect('button-press-event') {toggle}
     @volumeSlider.signal_connect('value_changed') { setVolume(@volumeSlider.value.to_i) }
     @volumeSlider.set_range(0,100)
     @volumeSlider.set_value(volume)
-
+		
     @stack.add(@radioView)
     @stack.add(@playerView)
     addRadioStations(@radioList)
@@ -93,6 +95,7 @@ class Radio
     @radioStations.each_with_index do |station, i|
       @mpd.add station[:addr]
       label = Gtk::Label.new
+      label.name = "bordered"
       label.set_markup('<span font_desc="16">%s</span>' % station[:name] + "\n" + station[:desc])
       button = Gtk::Button.new
       button.add(label)

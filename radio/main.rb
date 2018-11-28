@@ -35,7 +35,7 @@ class MainDisplay
     goToClockDisplay
 
     @win.show_all
-
+    
     Gtk.main
   end
 
@@ -61,6 +61,10 @@ class MainDisplay
     @timeLabel.name = "timeLabel"
     @mainClock.name = "mainClock"
     @radioStatus.name = "radioStatus"
+    
+    @clockButton.children.first.name = "bordered"
+    @radioButton.children.first.name = "bordered"
+    @weatherButton.children.first.name = "bordered"
 
     @radioStatus.width_chars = 6
     @radioStatus.max_width_chars = 6

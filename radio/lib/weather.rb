@@ -25,6 +25,8 @@ class Weather
     @mainLabel = builder.get_object("mainLabel")
     @extendedLabel = builder.get_object("ExtendedLabel")
 
+		@mainLabel.name = "bordered"
+		@extendedLabel.name = "bordered"
     @stack.add(@weatherView)
   end
 

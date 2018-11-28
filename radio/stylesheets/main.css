@@ -13,11 +13,10 @@ GtkEventBox {
   margin: 8px;
 }
 
-GtkLabel {
+#bordered, #stationInfo {
   border-style: solid;
   border-width: 5px;
   border-radius: 5px;
-  border-color: #FB8448;
 }
 
 /* main clock display */
@@ -25,13 +24,11 @@ GtkLabel {
 #timeLabel {
   font-family: Roboto;
   font-size: 80px;
-  border: none;
 }
 
 #mainClock {
   font-family: Roboto;
   font-size: 28px;
-  border: none;
 }
 
 #radioStatus {
@@ -50,7 +47,8 @@ GtkLabel {
 }
 
 .scrollbar.slider,
-.scale.slider {
+.scale.slider,
+#slider.slider {
   border-width: 3px;
   border-style: solid;
   border-radius: 10px;

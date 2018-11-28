@@ -27,3 +27,7 @@ GtkLabel {
 .scale.slider:hover {
   background-color: lighter(@tron_cyan);
 }
+
+/*#slider.slider {
+  background-color: @tron_cyan;
+}*/
