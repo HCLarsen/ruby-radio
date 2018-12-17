@@ -8,7 +8,7 @@
   color: @pane;
 }
 
-GtkLabel {
+#bordered, #stationInfo {
   border-color: @tron_cyan;
 }
 
