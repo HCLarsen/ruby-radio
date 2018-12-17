@@ -7,6 +7,8 @@ class Weather
     @stack = stack
 
     loadui
+    
+    @token = ENV['WEATHER_TOKEN']
 
     #if ENV['WEATHER_TOKEN']
       # load the standard ui
@@ -36,13 +38,13 @@ class Weather
   end
 
   def showWeather
-    if weather = getWeather
+    if @token && weather = getWeather
       main = weather["weather"].first["main"]
       temp = (weather["main"]["temp"]-273.15).round(1)
       windSpeed  = (weather["wind"]["speed"] * 3.6).round(1)
       humidity = weather["main"]["humidity"]
       image = weather["weather"].first["icon"] + ".png"
-      imagePath = "#{File.expand_path(__dir__)}/../images/" + image
+      imagePath = File.expand_path("../../images/#{image}", __FILE__)
       @mainImage.set_file(imagePath)
       @mainLabel.set_text("Conditions: #{main}\nTemperature: #{temp}oC")
       if windSpeed > 5 && temp < 10
@@ -72,7 +74,7 @@ class Weather
   end
 
   def getWeather(city = "Mississauga")
-    uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=83658a490b36698e09e779d265859910&q=#{URI.escape(city)}")
+    uri = URI.parse("http://api.openweathermap.org/data/2.5/weather?APPID=#{@token}&q=#{URI.escape(city)}")
     begin
       Timeout::timeout(3) do
         JSON.parse(uri.read)
