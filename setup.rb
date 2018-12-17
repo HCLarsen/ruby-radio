@@ -3,7 +3,7 @@
 # Setup file for the ruby-radio project. Creates or edits the appropriate
 # files to ensure autostart when the Pi boots up.
 
-lines = [["/.xinitrc", "# runs the main program for the ruby radio\n", "ruby ~/workspace/ruby-radio/main.rb\n"],
+lines = [["/.xinitrc", "# runs the main program for the ruby radio\n", "ruby ~/workspace/ruby-radio/radio/main.rb -p\n"],
          ["/.bashrc", "# initializes x server upon startup\n", "xinit\n"]]
 
 lines.each do |file, comment, line|

@@ -33,6 +33,10 @@ class MainDisplay
     @win.signal_connect("destroy") { Gtk.main_quit }
 
     goToClockDisplay
+    
+    if ARGV.include? "-p"
+    	@win.fullscreen
+    end
 
     @win.show_all
     
