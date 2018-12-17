@@ -16,14 +16,12 @@ GUI is made possible by using the [Gtk3](https://rubygems.org/gems/gtk3) gem
 
 Files for 3D printable casing can be found [here](https://a360.co/2QgYqZv).
 
+NOTE: The weather information is provided by [Open Weather Map](https://openweathermap.org/). To use this feature, you must obtain an OWM API token of you own, and ensure that it's available to the software as an environment variable on your device. The same is true for the alarms feature, which is provided with a [Cronofy](https://www.cronofy.com/) API token. Without these tokens, the rest of the clock will function, but these two features will not be available.
+
 # Installation Instructions
 
-1. Run apt-get install ruby-dev.
-2. Run ruby setup.rb.
-3. Add script in .xinitrc to add cronofy token as an environemnt variable.
-3. Run bundle install.
-4. Reset Raspberry Pi.
-
-# To Do
-
-Improve the styling using CSS. The interface will look much nicer when completed.
+1. Run apt-get install ruby-dev mpd mpc
+2. Run ruby setup.rb
+3. Add script in .xinitrc to add Cronofy and Open Weather Map tokens as an environemnt variables
+3. Run bundle install
+4. Reset Raspberry Pi
