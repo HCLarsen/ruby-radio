@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack', '1.6.11'
+gem 'rack', '2.1.4'
 gem 'gtk3'
 gem 'byebug'
 gem 'ruby-mpd'
